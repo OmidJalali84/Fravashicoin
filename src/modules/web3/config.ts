@@ -1,10 +1,10 @@
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { http, createConfig } from "wagmi";
-import { polygon,arbitrumSepolia } from "wagmi/chains";
+import { polygon, arbitrumSepolia } from "wagmi/chains";
 import { walletConnect, injected, coinbaseWallet } from "wagmi/connectors";
 
 //changed main and token
-export const contractMainAddr = "0x85c3076A569DCD505c867c4dfd53e622c24F47D8";
+export const contractMainAddr = "0x9c1e62713E6f888b60267e98b2730a0dfE5E5BFf";
 export const contractUsdAddr = "0x7609D219aE20a6e92e9c5634927469EcD982Cc91";
 
 // walletconnect
@@ -19,7 +19,7 @@ const metadata = {
 // wagmi
 //added arb config
 export const config = createConfig({
-  chains: [polygon,arbitrumSepolia],
+  chains: [polygon, arbitrumSepolia],
   transports: {
     [polygon.id]: http(
       "https://polygon-mainnet.g.alchemy.com/v2/gOdtC9qkQfB5fq8LsaEiXDJyCWnEXXzd"

@@ -12,6 +12,7 @@ export default function LoginButton() {
   const { data: userInfo } = getUserInfo(address ? address : zeroAddr);
 
   const login = async () => {
+    console.log(userInfo);
     if (!isConnected) open();
     else if (!userInfo?.active) navigate(Path.REGISTER);
     else {

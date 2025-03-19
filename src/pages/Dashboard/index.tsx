@@ -20,44 +20,8 @@ export default function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   // const navigate = useNavigate();
 
-  // State for storing direct usernames
-  const [leftDirect, setLeftDirect] = useState("nobody");
-  const [middleDirect, setMiddleDirect] = useState("nobody");
-  const [rightDirect, setRightDirect] = useState("nobody");
-
   // Fetch main user info
   const { data: userInfo } = getUserInfo(address || zeroAddr);
-
-  // Convert direct wallet addresses -> unique usernames
-  useEffect(() => {
-    if (!userInfo) return;
-
-    // Wrap in an async function for clarity
-    const fetchDirects = () => {
-      if (userInfo.left && userInfo.left !== zeroAddr) {
-        const { data } = getUserName(userInfo.left);
-        setLeftDirect(data || "nobody");
-      } else {
-        setLeftDirect("nobody");
-      }
-
-      if (userInfo.middle && userInfo.middle !== zeroAddr) {
-        const { data } = getUserName(userInfo.middle);
-        setMiddleDirect(data || "nobody");
-      } else {
-        setMiddleDirect("nobody");
-      }
-
-      if (userInfo.right && userInfo.right !== zeroAddr) {
-        const { data } = getUserName(userInfo.right);
-        setRightDirect(data || "nobody");
-      } else {
-        setRightDirect("nobody");
-      }
-    };
-
-    fetchDirects();
-  }, [userInfo]);
 
   // Prepare data for the ProfileBanner & ProfileCards
   const profileBannerData: PropsProfileBanner = {
@@ -65,17 +29,23 @@ export default function Dashboard() {
     reagentId: 1,
     rootLevel: 2,
     accountId: 3,
-    joined: parseInt(userInfo?.registerTime ?? "0"),
+    joined: userInfo?.registerTime.toString(),
   };
 
   const data = {
     username: userInfo?.username,
     active: userInfo?.active,
-    leftUser: leftDirect,
-    middleUser: middleDirect,
-    righrUser: rightDirect,
+    leftUser: userInfo?.leftUsername == "" ? "nobody" : userInfo?.leftUsername,
+    middleUser:
+      userInfo?.middleUsername == "" ? "nobody" : userInfo?.middleUsername,
+    rightUser:
+      userInfo?.rightUsername == "" ? "nobody" : userInfo?.rightUsername,
     firstDirectLock: parseInt(userInfo?.firstDirectLock ?? "0"),
   };
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   // For the Withdraw modal
   const style = {
@@ -134,7 +104,7 @@ export default function Dashboard() {
           className="btn border-2 border-sky-800/60 text-white/80 rounded-lg"
           onClick={handleOpen}
         >
-          Withdraw
+          Upgrade Plan
         </button>
       </div>
 

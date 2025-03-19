@@ -25,12 +25,9 @@ export default function ProfileBanner({
   accountId,
   joined,
 }: PropsProfileBanner) {
-
   if (typeof joined === "string") {
-    const joinedTimestamp = joined.match(/timestamp : (\d+) - /);
-    if (joinedTimestamp !== null && joinedTimestamp.length == 2) {
-      joined = new Date(parseInt(joinedTimestamp[1]) * 1000);
-    }
+    console.log(joined);
+    joined = (parseInt(joined) * 1000).toString();
   }
 
   return (

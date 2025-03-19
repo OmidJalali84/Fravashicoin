@@ -1,9 +1,4 @@
-import {
-  formatEther,
-  parseEther,
-  encodePacked,
-  keccak256,
-} from "viem";
+import { formatEther, parseEther, encodePacked, keccak256 } from "viem";
 import { abiMain } from "./abi";
 import { config, contractMainAddr, contractUsdAddr } from "./config";
 import { useReadContract } from "wagmi";
@@ -48,11 +43,6 @@ export function getUserInfo(address: string): { data: any } {
     address: contractMainAddr,
     functionName: "getUser",
     args: [address],
-    query: {
-      refetchOnMount: "always",
-      refetchOnWindowFocus: "always",
-      refetchInterval: 10000,
-    },
   });
 }
 
