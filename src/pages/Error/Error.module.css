@@ -1,0 +1,23 @@
+.backToHome {
+  margin-top: 20px;
+  font-size: 18px;
+
+  :hover {
+    @apply underline;
+  }
+}
+
+.notFound {
+  @apply flex flex-col justify-center items-center;
+  height: 100vh;
+
+  .title {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .description {
+    font-size: 18px;
+    color: #888;
+  }
+}

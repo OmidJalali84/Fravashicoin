@@ -1,0 +1,27 @@
+.home {
+  @apply bg-base-300 z-[0];
+
+  > * {
+    position: relative;
+  }
+
+}
+
+.hero {
+  @apply z-0 relative text-opacity-60 text-white sm:px-4;
+
+  &:before {
+    background-image: url("../../assets/hero-bg.png");
+    opacity: 0.8;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: fixed;
+  }
+}

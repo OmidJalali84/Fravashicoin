@@ -1,0 +1,15 @@
+.profileStage {
+    position:relative;
+
+    > div {
+        -webkit-mask: linear-gradient(#000 0 0); /* clip the background to child element*/
+    }
+
+    > div:before {
+        content:"";
+        position:absolute;
+        inset:0;
+        z-index: -1;
+        @apply bg-gradient-to-b from-sky-900/70 from-10% via-cyan-800 via-30% to-emerald-700 to-90%;
+    }
+}
