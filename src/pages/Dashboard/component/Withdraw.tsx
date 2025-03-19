@@ -16,12 +16,7 @@ export default function Withdraw(prop) {
 
   const maxSelect = (e) => {
     e.preventDefault();
-    amountValue.current.value = parseInt(prop.withdrawValue);
-  };
-
-  const setMyAddress = (e) => {
-    e.preventDefault();
-    addressValue.current.value = prop.walletAddress;
+    amountValue.current.value = parseInt(prop.upgradeCredit);
   };
 
   const callWithdraw = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,7 +63,7 @@ export default function Withdraw(prop) {
             </div>
             <div className={"flex justify-end"}>
               <span className={"w-fit self-end"}>
-                Credit: ${/*prop.upgradeCredits*/}
+                Credit: ${prop.upgradeCredit}
                 <button
                   className={"font-bold text-blue-700 ml-2"}
                   onClick={maxSelect}

@@ -46,17 +46,12 @@ export function getUserInfo(address: string): { data: any } {
   });
 }
 
-export function getUserName(address: string): { data: any } {
+export function getUserInfoByUsername(username: string): { data: any } {
   return useReadContract({
     abi: abiMain,
     address: contractMainAddr,
-    functionName: "addressToUsername",
-    args: [address],
-    query: {
-      refetchOnMount: "always",
-      refetchOnWindowFocus: "always",
-      refetchInterval: 10000,
-    },
+    functionName: "getUserByUsername",
+    args: [username],
   });
 }
 

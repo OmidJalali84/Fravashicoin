@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { getUserInfo, getUserName, zeroAddr } from "../../modules/web3/actions";
+import { getUserInfo, zeroAddr } from "../../modules/web3/actions";
 import ProfileBanner, {
   PropsProfileBanner,
 } from "../../components/profile/ProfileBanner";
@@ -12,6 +12,7 @@ import { yankClipboard } from "../../modules/clipboard";
 // import { useWeb3Modal } from "@web3modal/wagmi/react";
 import ProfileCards from "../../components/profile/ProfileCards";
 import Withdraw from "./component/Withdraw";
+import ProfileStage from "../../components/profile/ProfileStage";
 
 // const { open } = useWeb3Modal();
 
@@ -40,12 +41,41 @@ export default function Dashboard() {
       userInfo?.middleUsername == "" ? "nobody" : userInfo?.middleUsername,
     rightUser:
       userInfo?.rightUsername == "" ? "nobody" : userInfo?.rightUsername,
-    firstDirectLock: parseInt(userInfo?.firstDirectLock ?? "0"),
+    firstDirectLock: parseInt(userInfo?.firstDirectLock ?? "0") / 1e18,
+    upgradeCredit: parseInt(userInfo?.upgradeCredit ?? "0") / 1e18,
+  };
+
+  const specifyPlace = (placeIndex: number) => {
+    if (placeIndex == 0) return "Left";
+    else if (placeIndex == 1) return "Middle";
+    else if (placeIndex == 2) return "Right";
+  };
+
+  const stage = {
+    username: userInfo?.username,
+    upline: userInfo?.upline,
+    // upline: userInfo?.uplineUsername,
+    place: specifyPlace(parseInt(userInfo?.place) ?? "0"),
+    registerTime: parseInt(userInfo?.registerTime ?? "0"),
+    unlockedLevels: parseInt(userInfo?.unlockedLevels ?? "0"),
+    entryAmount: parseInt(userInfo?.entryAmount ?? "0") / 1e18,
+    entryToken: parseInt(userInfo?.entryToken ?? "0") / 1e18,
+    upgradeCredit: parseInt(userInfo?.upgradeCredit ?? "0") / 1e18,
+    totalFrozenTokens: parseInt(userInfo?.totalFrozenTokens ?? "0") / 1e18,
+    firstDirectLock: parseInt(userInfo?.firstDirectLock ?? "0") / 1e18,
+    thirdDirectLock: parseInt(userInfo?.thirdDirectLock ?? "0") / 1e18,
+    directs: parseInt(userInfo?.directs ?? "0"),
+    rightUsername:
+      userInfo?.rightUsername == "" ? "___" : userInfo?.rightUsername,
+    middleUsername:
+      userInfo?.middleUsername == "" ? "___" : userInfo?.middleUsername,
+    leftUsername: userInfo?.leftUsername == "" ? "___" : userInfo?.leftUsername,
+    active: userInfo?.active ?? false,
   };
 
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    console.log(data);
+  }, [data]);
 
   // For the Withdraw modal
   const style = {
@@ -82,12 +112,14 @@ export default function Dashboard() {
         <span className="text-md text-gray-200">Referral Link</span>
         <br />
         <span className="text-sm">
-          https://rifex.io/register?ref={data.username}
+          https:/127.0.0.1:5173/register?ref={data.username}
         </span>
         <button
           className="w-full btn border-0 bg-blue-600 text-white/80 rounded-lg mt-2"
           onClick={() =>
-            yankClipboard("https://rifex.io/register?ref=" + data.username)
+            yankClipboard(
+              "https://127.0.0.1:5173/register?ref=" + data.username
+            )
           }
         >
           Copy Link
@@ -108,6 +140,8 @@ export default function Dashboard() {
         </button>
       </div>
 
+      <ProfileStage stage={stage} />
+
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(true)}
@@ -123,10 +157,7 @@ export default function Dashboard() {
               <CloseIcon className="w-full" />
             </button>
           </div>
-          <Withdraw
-            withdrawValue={50 /* or data.diamondEarn */}
-            walletAddress={address}
-          />
+          <Withdraw upgradeCredit={data.upgradeCredit} />
         </Box>
       </Modal>
     </main>
