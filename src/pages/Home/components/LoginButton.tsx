@@ -9,7 +9,7 @@ export default function LoginButton() {
   const { open } = useWeb3Modal();
   const navigate = useNavigate();
 
-  const { data: userInfo } = getUserInfo(isConnected ? address : zeroAddr);
+  const { data: userInfo } = getUserInfo(address ? address : zeroAddr);
 
   const login = async () => {
     if (!isConnected) open();

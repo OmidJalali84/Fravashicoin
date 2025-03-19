@@ -7,18 +7,18 @@ import ProfileBanner, {
   PropsProfileBanner,
 } from "../../components/profile/ProfileBanner";
 import { yankClipboard } from "../../modules/clipboard";
-import { useNavigate } from "react-router-dom";
-import Path from "../../routes/path";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+// import { useNavigate } from "react-router-dom";
+// import Path from "../../routes/path";
+// import { useWeb3Modal } from "@web3modal/wagmi/react";
 import ProfileCards from "../../components/profile/ProfileCards";
 import Withdraw from "./component/Withdraw";
 
-const { open } = useWeb3Modal();
+// const { open } = useWeb3Modal();
 
 export default function Dashboard() {
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
   const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // State for storing direct usernames
   const [leftDirect, setLeftDirect] = useState("nobody");
@@ -28,34 +28,36 @@ export default function Dashboard() {
   // Fetch main user info
   const { data: userInfo } = getUserInfo(address || zeroAddr);
 
-  // // Convert direct wallet addresses -> unique usernames
-  // useEffect(() => {
-  //   if (!userInfo) return;
+  // Convert direct wallet addresses -> unique usernames
+  useEffect(() => {
+    if (!userInfo) return;
 
-  //   // Wrap in an async function for clarity
-  //   (async () => {
-  //     if (userInfo.left && userInfo.left !== zeroAddr) {
-  //       const { data } = getUserName(userInfo.left);
-  //       setLeftDirect(data || "nobody");
-  //     } else {
-  //       setLeftDirect("nobody");
-  //     }
+    // Wrap in an async function for clarity
+    const fetchDirects = () => {
+      if (userInfo.left && userInfo.left !== zeroAddr) {
+        const { data } = getUserName(userInfo.left);
+        setLeftDirect(data || "nobody");
+      } else {
+        setLeftDirect("nobody");
+      }
 
-  //     if (userInfo.middle && userInfo.middle !== zeroAddr) {
-  //       const { data } = getUserName(userInfo.middle);
-  //       setMiddleDirect(data || "nobody");
-  //     } else {
-  //       setMiddleDirect("nobody");
-  //     }
+      if (userInfo.middle && userInfo.middle !== zeroAddr) {
+        const { data } = getUserName(userInfo.middle);
+        setMiddleDirect(data || "nobody");
+      } else {
+        setMiddleDirect("nobody");
+      }
 
-  //     if (userInfo.right && userInfo.right !== zeroAddr) {
-  //       const { data } = getUserName(userInfo.right);
-  //       setRightDirect(data || "nobody");
-  //     } else {
-  //       setRightDirect("nobody");
-  //     }
-  //   })();
-  // }, [userInfo]);
+      if (userInfo.right && userInfo.right !== zeroAddr) {
+        const { data } = getUserName(userInfo.right);
+        setRightDirect(data || "nobody");
+      } else {
+        setRightDirect("nobody");
+      }
+    };
+
+    fetchDirects();
+  }, [userInfo]);
 
   // Prepare data for the ProfileBanner & ProfileCards
   const profileBannerData: PropsProfileBanner = {

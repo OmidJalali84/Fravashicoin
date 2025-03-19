@@ -5,8 +5,6 @@ import { toast } from "react-toastify";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import {
   approveUser,
-  fmtEther,
-  getAllowanceValue,
   getUserInfo,
   registerUser,
   zeroAddr,

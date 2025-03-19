@@ -29,24 +29,24 @@ const routes = [
       return { Component: Profile };
     },
   },
-  {
-    path: Path.PROFILE + "/:username",
-    async lazy() {
-      let { default: ProfileSearch } = await import(
-        "../pages/Profile/ProfileSearch"
-      );
-      return { Component: ProfileSearch };
-    },
-  },
-  {
-    path: Path.PROFILE + "/:username/chart",
-    async lazy() {
-      let { default: ProfileChart} = await import(
-        "../pages/Profile/ProfileChart"
-      );
-      return { Component: ProfileChart};
-    },
-  },
+  // {
+  //   path: Path.PROFILE + "/:username",
+  //   async lazy() {
+  //     let { default: ProfileSearch } = await import(
+  //       "../pages/Profile/ProfileSearch"
+  //     );
+  //     return { Component: ProfileSearch };
+  //   },
+  // },
+  // {
+  //   path: Path.PROFILE + "/:username/chart",
+  //   async lazy() {
+  //     let { default: ProfileChart} = await import(
+  //       "../pages/Profile/ProfileChart"
+  //     );
+  //     return { Component: ProfileChart};
+  //   },
+  // },
 ];
 
 export default routes;

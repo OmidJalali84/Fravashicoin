@@ -3,9 +3,8 @@ import {
   parseEther,
   encodePacked,
   keccak256,
-  Address,
 } from "viem";
-import { abiMain, abiUsd } from "./abi";
+import { abiMain } from "./abi";
 import { config, contractMainAddr, contractUsdAddr } from "./config";
 import { useReadContract } from "wagmi";
 import { readContract, writeContract } from "wagmi/actions";
