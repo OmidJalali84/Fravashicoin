@@ -112,13 +112,13 @@ export default function Dashboard() {
         <span className="text-md text-gray-200">Referral Link</span>
         <br />
         <span className="text-sm">
-          https:/127.0.0.1:5173/register?ref={data.username}
+          https://fravashicoin.vercel.app/register?ref={data.username}
         </span>
         <button
           className="w-full btn border-0 bg-blue-600 text-white/80 rounded-lg mt-2"
           onClick={() =>
             yankClipboard(
-              "https://127.0.0.1:5173/register?ref=" + data.username
+              "https://fravashicoin.vercel.app/register?ref=" + data.username
             )
           }
         >
