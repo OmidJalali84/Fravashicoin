@@ -1,8 +1,27 @@
 import { Link } from "react-router-dom";
-import { getTotalUsers} from "../../modules/web3/actions";
+import { getContractInfo } from "../../modules/web3/actions";
+import { useEffect } from "react";
 
 export default function Footer() {
-  const { data: contractInfo } = getTotalUsers();
+  type ContractInfoType = string[];
+  const { data: contractInfo } = getContractInfo() as {
+    data: ContractInfoType;
+  };
+
+  useEffect(() => {
+    console.log(contractInfo);
+  }, [contractInfo]);
+
+  const data = {
+    totalUsers: contractInfo ? parseInt(contractInfo[0]) : 0,
+    daiLiquidity: contractInfo
+      ? (parseInt(contractInfo[1]) / 1e18).toFixed(0)
+      : 0,
+    fravashiLiquidity: contractInfo
+      ? (parseInt(contractInfo[2]) / 1e18).toFixed(0)
+      : 0,
+    price: contractInfo ? (parseInt(contractInfo[3]) / 1e18).toFixed(6) : 0,
+  };
 
   return (
     <footer className="bg-base-200 sm:px-4">
@@ -14,15 +33,30 @@ export default function Footer() {
             }
           >
             <div className={"flex flex-col items-center w-60"}>
-              <span className={"text-2xl"}>Total Entrance</span>
-              <span className={"text-2xl font-bold text-center text-green-600"}>
-                {Number(contractInfo) || "0$"}
-              </span>
-            </div>
-            <div className={"flex flex-col items-center w-60"}>
               <span className={"text-2xl"}>Total User</span>
               <span className={"text-2xl font-bold text-center text-secondary"}>
-                {Number(contractInfo) || "0 "}
+                {data.totalUsers || "0"}
+              </span>
+            </div>
+
+            <div className={"flex flex-col items-center w-60"}>
+              <span className={"text-2xl"}>DAI Liquidity</span>
+              <span className={"text-2xl font-bold text-center text-green-600"}>
+                {data.daiLiquidity || "0$"}
+              </span>
+            </div>
+
+            <div className={"flex flex-col items-center w-60"}>
+              <span className={"text-2xl"}>Fravashicoin Liquidity</span>
+              <span className={"text-2xl font-bold text-center text-green-600"}>
+                {data.fravashiLiquidity || "0 FRV"}
+              </span>
+            </div>
+
+            <div className={"flex flex-col items-center w-60"}>
+              <span className={"text-2xl"}>Price</span>
+              <span className={"text-2xl font-bold text-center text-green-600"}>
+                {data.price || "0"}
               </span>
             </div>
           </div>

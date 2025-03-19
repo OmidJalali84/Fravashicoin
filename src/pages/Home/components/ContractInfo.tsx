@@ -4,12 +4,26 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import BackgroundShape from "../../../assets/about-shape.png";
-import { getTotalUsers } from "../../../modules/web3/actions.ts";
+import { getContractInfo } from "../../../modules/web3/actions.ts";
 import { yankClipboard } from "../../../modules/clipboard.ts";
 import { contractMainAddr } from "../../../modules/web3/config.ts";
 
 export default function HowToStartModule() {
-  const {data:totalUsers} = getTotalUsers();
+  type ContractInfoType = string[];
+  const { data: contractInfo } = getContractInfo() as {
+    data: ContractInfoType;
+  };
+
+  const data = {
+    totalUsers: contractInfo ? parseInt(contractInfo[0]) : 0,
+    daiLiquidity: contractInfo
+      ? (parseInt(contractInfo[1]) / 1e18).toFixed(0)
+      : 0,
+    fravashiLiquidity: contractInfo
+      ? (parseInt(contractInfo[2]) / 1e18).toFixed(0)
+      : 0,
+    price: contractInfo ? (parseInt(contractInfo[3]) / 1e18).toFixed(6) : 0,
+  };
 
   return (
     <>
@@ -71,25 +85,45 @@ export default function HowToStartModule() {
               "flex flex-col items-center justify-center p-4  rounded-3xl"
             }
           >
-            <div className={"flex flex-col"}>
-              <span className={"text-2xl mt-10"}>Total Entrance </span>
-              <span
-                className={" text-2xl font-bold text-center text-green-600"}
-              >
-                {Number(totalUsers)|| "0"}
-              </span>
-            </div>
             <div className={"flex flex-col mt-4"}>
               <span className={"text-2xl "}>Total User </span>
 
               <span
                 className={" text-2xl font-bold text-center text-secondary"}
               >
-                {Number(totalUsers)|| "0"}
+                {data.totalUsers || "0"}
                 &nbsp;
                 <PeopleAltIcon />
               </span>
             </div>
+
+            <div className={"flex flex-col"}>
+              <span className={"text-2xl mt-10"}>DAI Liquidity </span>
+              <span
+                className={" text-2xl font-bold text-center text-green-600"}
+              >
+                {data.daiLiquidity || "0"}
+              </span>
+            </div>
+
+            <div className={"flex flex-col"}>
+              <span className={"text-2xl mt-10"}>Fravashi Liquidity </span>
+              <span
+                className={" text-2xl font-bold text-center text-green-600"}
+              >
+                {data.fravashiLiquidity || "0"}
+              </span>
+            </div>
+
+            <div className={"flex flex-col"}>
+              <span className={"text-2xl mt-10"}>Price </span>
+              <span
+                className={" text-2xl font-bold text-center text-green-600"}
+              >
+                {data.price || "0"}
+              </span>
+            </div>
+
             {/*<span>According to your stake amount, choose a plan and go to staking and plan section. Connect your wallet and then enter the referral code.</span>*/}
           </div>
         </div>

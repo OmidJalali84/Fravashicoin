@@ -2,7 +2,11 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { getUserInfo, zeroAddr } from "../../modules/web3/actions";
+import {
+  getUserInfo,
+  getUserBalance,
+  zeroAddr,
+} from "../../modules/web3/actions";
 import ProfileBanner, {
   PropsProfileBanner,
 } from "../../components/profile/ProfileBanner";
@@ -11,7 +15,7 @@ import { yankClipboard } from "../../modules/clipboard";
 // import Path from "../../routes/path";
 // import { useWeb3Modal } from "@web3modal/wagmi/react";
 import ProfileCards from "../../components/profile/ProfileCards";
-import Withdraw from "./component/Withdraw";
+import UpgradePlan from "./component/UpgradePlan";
 import ProfileStage from "../../components/profile/ProfileStage";
 
 // const { open } = useWeb3Modal();
@@ -23,13 +27,13 @@ export default function Dashboard() {
 
   // Fetch main user info
   const { data: userInfo } = getUserInfo(address || zeroAddr);
+  const { data: userBalance } = getUserBalance(address || zeroAddr);
 
   // Prepare data for the ProfileBanner & ProfileCards
   const profileBannerData: PropsProfileBanner = {
     walletAddr: address,
-    reagentId: 1,
-    rootLevel: 2,
-    accountId: 3,
+    userBalance: userBalance ? parseInt(userBalance ?? "0") / 1e18 : 0,
+    username: userInfo?.username,
     joined: userInfo?.registerTime.toString(),
   };
 
@@ -41,8 +45,12 @@ export default function Dashboard() {
       userInfo?.middleUsername == "" ? "nobody" : userInfo?.middleUsername,
     rightUser:
       userInfo?.rightUsername == "" ? "nobody" : userInfo?.rightUsername,
-    firstDirectLock: parseInt(userInfo?.firstDirectLock ?? "0") / 1e18,
-    upgradeCredit: parseInt(userInfo?.upgradeCredit ?? "0") / 1e18,
+    firstDirectLock: userInfo?.firstDirectLock
+      ? parseInt(userInfo?.firstDirectLock) / 1e18
+      : 0,
+    upgradeCredit: userInfo?.upgradeCredit
+      ? parseInt(userInfo?.upgradeCredit) / 1e18
+      : 0,
   };
 
   const specifyPlace = (placeIndex: number) => {
@@ -58,12 +66,24 @@ export default function Dashboard() {
     place: specifyPlace(parseInt(userInfo?.place) ?? "0"),
     registerTime: parseInt(userInfo?.registerTime ?? "0"),
     unlockedLevels: parseInt(userInfo?.unlockedLevels ?? "0"),
-    entryAmount: parseInt(userInfo?.entryAmount ?? "0") / 1e18,
-    entryToken: parseInt(userInfo?.entryToken ?? "0") / 1e18,
-    upgradeCredit: parseInt(userInfo?.upgradeCredit ?? "0") / 1e18,
-    totalFrozenTokens: parseInt(userInfo?.totalFrozenTokens ?? "0") / 1e18,
-    firstDirectLock: parseInt(userInfo?.firstDirectLock ?? "0") / 1e18,
-    thirdDirectLock: parseInt(userInfo?.thirdDirectLock ?? "0") / 1e18,
+    entryAmount: userInfo?.entryAmount
+      ? parseInt(userInfo?.entryAmount) / 1e18
+      : 0,
+    entryToken: userInfo?.entryToken
+      ? parseInt(userInfo?.entryToken) / 1e18
+      : 0,
+    upgradeCredit: userInfo?.upgradeCredit
+      ? parseInt(userInfo?.upgradeCredit) / 1e18
+      : 0,
+    totalFrozenTokens: userInfo?.totalFrozenTokens
+      ? parseInt(userInfo?.totalFrozenTokens) / 1e18
+      : 0,
+    firstDirectLock: userInfo?.firstDirectLock
+      ? parseInt(userInfo?.firstDirectLock) / 1e18
+      : 0,
+    thirdDirectLock: userInfo?.thirdDirectLock
+      ? parseInt(userInfo?.thirdDirectLock) / 1e18
+      : 0,
     directs: parseInt(userInfo?.directs ?? "0"),
     rightUsername:
       userInfo?.rightUsername == "" ? "___" : userInfo?.rightUsername,
@@ -157,7 +177,7 @@ export default function Dashboard() {
               <CloseIcon className="w-full" />
             </button>
           </div>
-          <Withdraw upgradeCredit={data.upgradeCredit} />
+          <UpgradePlan upgradeCredit={data.upgradeCredit} />
         </Box>
       </Modal>
     </main>

@@ -94,14 +94,14 @@ export default function ProfileStage({ stage }: PropsProfileStage) {
           </span>
         </div>
 
-        <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
+        {/* <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
           <span className="text-lg font-bold whitespace-nowrap">
             Total Frozen Tokens
           </span>
           <span className="text-lg font-bold text-center w-1/4">
             {stage.totalFrozenTokens} FRV
           </span>
-        </div>
+        </div> */}
 
         <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
           <span className="text-lg font-bold whitespace-nowrap">

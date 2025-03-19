@@ -24,7 +24,11 @@ export default function Header() {
     <nav className="navbar scroll-m-0 bg-cyan-500/10 backdrop-blur sticky top-0 border-b-2 border-gray-700 z-[999]">
       <div className="navbar-start" style={{ position: "relative" }}>
         <Link to={"/"}>
-          <img src={LogoHeader} alt="" className="logo" />
+          <img
+            src={LogoHeader}
+            alt=""
+            className="logo"
+          />
         </Link>
       </div>
 

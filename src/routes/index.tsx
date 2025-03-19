@@ -29,15 +29,15 @@ const routes = [
       return { Component: Profile };
     },
   },
-  // {
-  //   path: Path.PROFILE + "/:username",
-  //   async lazy() {
-  //     let { default: ProfileSearch } = await import(
-  //       "../pages/Profile/ProfileSearch"
-  //     );
-  //     return { Component: ProfileSearch };
-  //   },
-  // },
+  {
+    path: Path.PROFILE + "/:username",
+    async lazy() {
+      let { default: ProfileSearch } = await import(
+        "../pages/Profile/ProfileSearch"
+      );
+      return { Component: ProfileSearch };
+    },
+  },
   // {
   //   path: Path.PROFILE + "/:username/chart",
   //   async lazy() {

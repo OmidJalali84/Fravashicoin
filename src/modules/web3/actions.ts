@@ -29,11 +29,12 @@ export function getAllowanceValue(address: any) {
 }
 
 //?
+
 export function getContractInfo() {
   return useReadContract({
     abi: abiMain,
     address: contractMainAddr,
-    functionName: "contractinfo",
+    functionName: "getContractStage",
   });
 }
 
@@ -52,6 +53,34 @@ export function getUserInfoByUsername(username: string): { data: any } {
     address: contractMainAddr,
     functionName: "getUserByUsername",
     args: [username],
+  });
+}
+
+export function getUserAddressByUsername(username: string): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "usernameToAddress",
+    args: [username],
+  });
+}
+
+export function getUserBalance(address: string): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "balanceOf",
+    args: [address],
+  });
+}
+
+export function getUserBalanceByUsername(username: string): { data: any } {
+  const address = getUserAddressByUsername(username)
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "balanceOf",
+    args: [address],
   });
 }
 
@@ -93,16 +122,12 @@ export function registerUser(
 }
 
 //?
-export function withdraw(
-  amount: string,
-  recepient: `0x{string}`,
-  isDai = true
-) {
+export function upgradePlan(amount: string) {
   return writeContract(config, {
     address: contractMainAddr,
     abi: abiMain,
-    functionName: "withdraw",
-    args: [parseEther(amount), recepient, isDai],
+    functionName: "upgradePlan",
+    args: [parseEther(amount)],
   });
 }
 
@@ -137,13 +162,6 @@ export function userTree(username: string = "", level: number = 0) {
 
 ///Added by me
 
-export function getTotalUsers() {
-  return useReadContract({
-    abi: abiMain,
-    address: contractMainAddr,
-    functionName: "totalUsers",
-  });
-}
 export function getUserInfoWithUsername(username: string = ""): { data: any } {
   return useReadContract({
     abi: abiMain,

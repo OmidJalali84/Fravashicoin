@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Link } from "react-router-dom";
 // import ProfilePicture from "../../assets/profile/default-profile.jpg";
 import ProfilePicture from "../../../public/logo3.svg";
 import TimeAgo from "timeago-react";
@@ -12,17 +11,15 @@ function copyAddress(address: any) {
 
 export interface PropsProfileBanner {
   walletAddr: any;
-  reagentId: any;
-  rootLevel: any;
-  accountId: any;
+  userBalance: any;
+  username: any;
   joined: any;
 }
 
 export default function ProfileBanner({
   walletAddr,
-  reagentId,
-  rootLevel,
-  accountId,
+  userBalance,
+  username,
   joined,
 }: PropsProfileBanner) {
   if (typeof joined === "string") {
@@ -71,20 +68,12 @@ export default function ProfileBanner({
               <ContentCopyIcon />
             </button>
           </span>
-          <span className={"md:text-xl "}>
-            Reagent ID:{" "}
-            <Link
-              to={"/profile/" + reagentId}
-              className={"text-blue-700  bg-blue-600/10 px-2 py-1 rounded-full"}
-            >
-              {reagentId}
-            </Link>
-          </span>
+
           <span className={"md:text-xl"}>
-            Root surface: <span className={"text-white"}>{rootLevel}</span>
+            Username: <span className={"text-white"}>{username}</span>
           </span>
-          <span className={"md:text-xl"}>
-            Account ID: <span className={"text-white"}>{accountId}</span>
+          <span className={"md:text-xl mb-3"}>
+            FRV Balance: {userBalance ? userBalance.toFixed(2) : "0"} FRV
           </span>
         </div>
       </div>
