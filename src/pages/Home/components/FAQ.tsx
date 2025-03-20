@@ -6,26 +6,26 @@ export default function FAQ() {
         "A smart contract is a computer protocol that allows for programmatically automating and managing financial transactions without the need to trust any third party. With a smart contract, a secure and reliable environment for conducting financial operations can be created, which operates automatically and without human intervention.",
     },
     {
-      question: "What is Rifex?",
+      question: "What is Fravashicoin?",
       answer:
-        "Rifex is an online business based on web technology 3.0, completely decentralized and accessible to everyone. Our project is a whole universe of cryptocurrency tools where everything is interconnected, and therefore rapid implementation occurs organically.",
+        "Fravashicoin is an online business based on web technology 3.0, completely decentralized and accessible to everyone. Our project is a whole universe of cryptocurrency tools where everything is interconnected, and therefore rapid implementation occurs organically.",
     },
     {
-      question: "Why is Rifex secure?",
+      question: "Why is Fravashicoin secure?",
       answer:
-        "Rifex is secure. Its operation is fully protected by blockchain technology. Participants do not provide personal data and only use their cryptocurrency wallet address as a login, connected via WEB 3.0. This ensures anonymity. The entire Rifex infrastructure is based on secure smart contracts to prevent external interference, and the website simply displays data from the blockchain.",
+        "Fravashicoin is secure. Its operation is fully protected by blockchain technology. Participants do not provide personal data and only use their cryptocurrency wallet address as a login, connected via WEB 3.0. This ensures anonymity. The entire Fravashicoin infrastructure is based on secure smart contracts to prevent external interference, and the website simply displays data from the blockchain.",
     },
     {
-      question: "What do I need to start working with Rifex?",
+      question: "What do I need to start working with Fravashicoin?",
       answer:
         "You will need a phone or laptop, a cryptocurrency wallet (Metamask, Trust Wallet, or Tokenpocket), some Matic for paying Polygon network fees, and DAI.",
     },
     {
       question: "What is the minimum amount of money needed to start earning?",
-      answer: "ou can start earning with 33 DAI, equivalent to 33$.",
+      answer: "ou can start earning with 10 DAI, equivalent to 10$.",
     },
     {
-      question: "How can I earn with Rifex?",
+      question: "How can I earn with Fravashicoin?",
       answer:
         "You can earn by introducing your friends through the referral link",
     },

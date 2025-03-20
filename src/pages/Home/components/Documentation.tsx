@@ -26,7 +26,7 @@ export default function Documentation() {
           }
         >
           <span className={"text-justify "}>
-            Rifex constructor team consists of Two cryptocurrency's experts and
+            Fravashi constructor team consists of Two cryptocurrency's experts and
             consultants A cryptocurrency programmer and developer An Anchin
             expert Four financial market advisors Eight marketing and sale
             consultants An huge business consultant.

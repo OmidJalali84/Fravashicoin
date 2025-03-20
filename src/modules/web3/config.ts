@@ -4,14 +4,14 @@ import { polygon, arbitrumSepolia } from "wagmi/chains";
 import { walletConnect, injected, coinbaseWallet } from "wagmi/connectors";
 
 //changed main and token
-export const contractMainAddr = "0x9c1e62713E6f888b60267e98b2730a0dfE5E5BFf";
-export const contractUsdAddr = "0x7609D219aE20a6e92e9c5634927469EcD982Cc91";
+export const contractMainAddr = "0x92dD6f15a438730C052e4547c6F37A98B25df2bF";
+export const contractUsdAddr = "0x320f0Ed6Fc42b0857e2b598B5DA85103203cf5d3";
 
 // walletconnect
 const projectId = "b8479a23d56f952664cd377ed894ed16"; // main
 const metadata = {
-  name: "Rifex",
-  description: "Rifex",
+  name: "FRV",
+  description: "FRV",
   url: "https://web3modal.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };

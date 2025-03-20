@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 // import ProfilePicture from "../../assets/profile/default-profile.jpg";
-import ProfilePicture from "../../../public/logo3.svg";
+import ProfilePicture from "../../../public/frv-logo.png";
 import TimeAgo from "timeago-react";
 
 function copyAddress(address: any) {
@@ -73,7 +73,7 @@ export default function ProfileBanner({
             Username: <span className={"text-white"}>{username}</span>
           </span>
           <span className={"md:text-xl mb-3"}>
-            FRV Balance: {userBalance ? userBalance.toFixed(2) : "0"} FRV
+            FRV Balance: {userBalance ?Math.round( userBalance) : "0"} FRV
           </span>
         </div>
       </div>

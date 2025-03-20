@@ -48,7 +48,7 @@ export default function Footer() {
 
             <div className={"flex flex-col items-center w-60"}>
               <span className={"text-2xl"}>Fravashicoin Liquidity</span>
-              <span className={"text-2xl font-bold text-center text-green-600"}>
+              <span className={"text-2xl font-bold text-center text-secondary"}>
                 {data.fravashiLiquidity || "0 FRV"}
               </span>
             </div>
@@ -66,7 +66,7 @@ export default function Footer() {
           <hr className="mb-4 opacity-20" />
           <div className="flex flex-wrap -mx-4  items-center">
             <div className="px-4 py-2 w-full md:flex-1">
-              <p>&copy; 2022 - 2023. All Rights Reserved - Rifex</p>
+              <p>&copy; 2025 - 2026. All Rights Reserved - Fravashicoin</p>
             </div>
             <div className="px-4 py-2 w-full sm:w-auto">
               <Link to="#" className="hover:text-primary-600 text-primary-500">

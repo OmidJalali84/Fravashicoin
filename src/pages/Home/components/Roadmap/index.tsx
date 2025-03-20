@@ -4,19 +4,19 @@ export default function Roadmap() {
   const roadmapItems = [
     {
       title: "Decentralized exchange",
-      info: "Rifex decentralized exchange will have significant differences also there will be several revenue generating schemes will be implemented in different ways.",
+      info: "Fravashicoin decentralized exchange will have significant differences also there will be several revenue generating schemes will be implemented in different ways.",
     },
     {
       title: "Crypto lottery",
       info: "By guessing the numbers correctly, you can win the prize 12 times a day, ranging from $1,000 to  $100,000.",
     },
     {
-      title: "Rifex native token ",
-      info: "Rifex token will use in all Rifex projects as a fee and will be built on the basis of the Rifex token with the participation of foreign partners in the AI infrastructure online games and Metaverse.",
+      title: "Fravashicoin native token ",
+      info: "Fravashicoin token will use in all Fravashicoin projects as a fee and will be built on the basis of the Fravashicoin token with the participation of foreign partners in the AI infrastructure online games and Metaverse.",
     },
     {
       title: "Explorer",
-      info: "Rifex's proprietary explorer has the ability to track all cryptocurrency transactions",
+      info: "Fravashicoin's proprietary explorer has the ability to track all cryptocurrency transactions",
     },
   ];
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { Link } from "react-router-dom";
-import LogoHeader from "../../../public/logo test.svg";
+import LogoHeader from "../../../public/frv-logo.png";
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -28,12 +28,16 @@ export default function Header() {
             src={LogoHeader}
             alt=""
             className="logo"
+            style={{ width: "60px", marginLeft: "130px", marginTop: "85px" }}
           />
         </Link>
       </div>
 
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
+          <li>
+            <Link to={"/"}>Whitepaper</Link>
+          </li>
           <li>
             <Link to={"/"}>Home</Link>
           </li>
