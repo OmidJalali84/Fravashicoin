@@ -35,6 +35,19 @@ export default function ContractDataLine() {
           <p className={""}>All Users</p>
           <span className={"text-secondary"}>{data.totalUsers || 0} </span>
         </div>
+
+        <div
+          className={
+            " flex flex-row md:justify-center gap-1 items-center w-[120px] mx-5"
+          }
+        >
+          <span className={"text-secondary "}>
+            <WaterfallChartIcon />
+          </span>
+          <p className={""}>Price</p>
+          <span className={"text-secondary"}>{data.price || 0} </span>
+        </div>
+
         <div
           className={
             "flex flex-row md:justify-center items-center gap-1 w-[180px] mx-5"
@@ -59,18 +72,6 @@ export default function ContractDataLine() {
           <span className={"text-secondary"}>
             {data?.fravashiLiquidity ?? 0}{" "}
           </span>
-        </div>
-
-        <div
-          className={
-            " flex flex-row md:justify-center gap-1 items-center w-[120px] mx-5"
-          }
-        >
-          <span className={"text-secondary "}>
-            <WaterfallChartIcon />
-          </span>
-          <p className={""}>Price</p>
-          <span className={"text-secondary"}>{data.price || 0} </span>
         </div>
       </Marquee>
     </section>

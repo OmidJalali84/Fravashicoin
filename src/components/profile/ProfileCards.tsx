@@ -57,6 +57,7 @@ export default function ProfileCards({
             className={
               "btn border-2 border-teal-800/60 text-white/80 rounded-lg"
             }
+            disabled={true}
           >
             View Chart
           </button>

@@ -7,6 +7,7 @@ import {
   approveUser,
   getUserInfo,
   getUserInfoByUsername,
+  getUserAddressByUsername,
   registerUser,
   zeroAddr,
 } from "../../modules/web3/actions.ts";
@@ -34,29 +35,26 @@ function Register() {
   const [waitWeb3, setWaitWeb3] = useState(false);
   const isLoading = () => isConnected && waitWeb3;
 
-  // Get referral parameter (if any) from URL.
+  // Get referral and username params (if any) from URL.
   const refParam = searchParams.get("ref") ?? "";
-  // We also allow a "usr" param for the username if provided.
   const usrParam = searchParams.get("usr") ?? "";
 
   // New ordering: 0: Connect Wallet, 1: Referral, 2: Approve, 3: Register.
-  // When there is no referral, you might want to skip Step 1.
   const [activeStep, setActiveStep] = useState(0);
 
-  // When wallet is connected, go to referral step.
+  // When wallet is connected, always start at Referral step.
   useEffect(() => {
     if (isConnected) {
-      // If a referral is provided in the URL, automatically move to step 1.
-      setActiveStep(refParam ? 1 : 2);
+      setActiveStep(1);
     } else {
       setActiveStep(0);
     }
-  }, [isConnected, refParam]);
+  }, [isConnected]);
 
   // State for referral and username.
   // For referral step, if the URL has a referral, we auto-fill and disable editing.
   const [refUsername, setRefUsername] = useState(refParam);
-  const [hasReferral, setHasReferral] = useState(!!refParam);
+
   // Amount is used in the approval step.
   const [amount, setAmount] = useState("0");
   // Username for final registration step.
@@ -65,6 +63,10 @@ function Register() {
   const { data: refInfo } = getUserInfoByUsername(
     refUsername ? refUsername : ""
   );
+
+  // const { data: refAddress } = getUserAddressByUsername(
+  //   refUsername ? refUsername : ""
+  // );
 
   useEffect(() => {
     console.log("UserInfo", userInfo);
@@ -81,20 +83,26 @@ function Register() {
       return;
     }
 
-    if (userInfo && userInfo.active === true) {
+    if (userInfo && userInfo.active) {
       toast.success("You Have Already Registered!");
-      navigate(Path.DASHBOARD);
-      return;
+      console.log(userInfo);
+      // navigate(Path.DASHBOARD);
+      // return;
     }
 
     try {
       setWaitWeb3(true);
       if (Number(amount) >= 10) {
         // Use the referral if provided, or zeroAddr if not.
-        const referral = hasReferral ? refUsername : zeroAddr;
+        const refAddress = refInfo?.userAddress;
+        if (!refAddress || refAddress == zeroAddr) {
+          toast.error("Invalid Referral");
+          return;
+        }
+
         const registerTransaction = await registerUser(
           address,
-          referral,
+          refAddress,
           parseEther(amount),
           username.toLowerCase()
         );
@@ -126,7 +134,7 @@ function Register() {
     <main className={"mx-auto max-w-screen-xl"}>
       <div className={"flex flex-col gap-6 pt-12 px-10 mb-10"}>
         <div className={"py-4"}>
-          <span className={"font-bold text-2xl"}>Register stage in Rifex</span>
+          <span className={"font-bold text-2xl"}>Register stage in Fravashicoin</span>
           <br />
           <span>
             Please connect your wallet and then go through the register process
@@ -153,75 +161,58 @@ function Register() {
             </StepContent>
           </Step>
 
-          {/* Step 1: Referral (only if a referral exists or the user opts in) */}
-          {hasReferral || refParam ? (
-            <Step key={1}>
-              <StepLabel>
-                <span className={styles.label}>Referral</span>
-              </StepLabel>
-              <StepContent>
-                <Typography className={styles.description}>
-                  {refParam
-                    ? "Referral detected from URL"
-                    : "Enter your referral username"}
-                </Typography>
-                <div className={styles.input}>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={hasReferral}
-                      onChange={(e) => {
-                        setHasReferral(e.target.checked);
-                        // If unchecked, clear the referral field.
-                        if (!e.target.checked) setRefUsername("");
-                      }}
-                      className="checkbox"
-                    />
-                    <span>Yes, I have a referral</span>
-                  </label>
-                  <input
-                    type="text"
-                    name={"referral"}
-                    disabled={!!refParam} // if referral was provided via URL, disable editing
-                    placeholder={"username"}
-                    className={"input input-secondary w-full mt-2"}
-                    value={refUsername}
-                    onChange={(e) => setRefUsername(e.target.value)}
-                  />
-                </div>
-                <button
-                  disabled={isLoading()}
-                  className={"btn btn-primary mt-3"}
-                  onClick={async () => {
-                    setWaitWeb3(true);
-                    try {
-                      // Optionally, validate the referral if needed.
-                      if (
-                        hasReferral &&
-                        (!refUsername || refUsername.trim() === "")
-                      ) {
-                        throw new Error("Referral is required");
-                      }
-                      // Move to next step: Approval.
-                      setActiveStep(2);
-                    } catch (err: any) {
-                      toast.error(String(err.message));
+          {/* Step 1: Referral - always shown */}
+          <Step key={1}>
+            <StepLabel>
+              <span className={styles.label}>Referral</span>
+            </StepLabel>
+            <StepContent>
+              <Typography className={styles.description}>
+                {refParam
+                  ? "Referral detected from URL"
+                  : "Enter your referral username (optional)"}
+              </Typography>
+              <div className={styles.input}>
+                <input
+                  type="text"
+                  name={"referral"}
+                  disabled={!!refParam} // if referral was provided via URL, disable editing
+                  placeholder={"username"}
+                  className={"input input-secondary w-full mt-2"}
+                  value={refUsername}
+                  onChange={(e) => setRefUsername(e.target.value)}
+                />
+              </div>
+              <button
+                disabled={isLoading()}
+                className={"btn btn-primary mt-3"}
+                onClick={async () => {
+                  setWaitWeb3(true);
+                  try {
+                    if (!refUsername || refUsername.trim() === "") {
+                      throw new Error("Referral is required");
+                    } else if (!refInfo?.active) {
+                      throw new Error("Referral does not exist");
                     }
-                    setWaitWeb3(false);
-                  }}
-                >
-                  {isLoading() ? (
-                    <span className="loading loading-dots loading-md text-gray-500"></span>
-                  ) : (
-                    <span>Continue</span>
-                  )}
-                </button>
-              </StepContent>
-            </Step>
-          ) : null}
+                    // Move to next step: Approval.
+                    setActiveStep(2);
+                  } catch (err: any) {
+                    toast.error(String(err.message));
+                  }
+                  setWaitWeb3(false);
+                }}
+              >
+                {isLoading() ? (
+                  <span className="loading loading-dots loading-md text-gray-500"></span>
+                ) : (
+                  <span>Continue</span>
+                )}
+              </button>
+            </StepContent>
+          </Step>
 
           {/* Step 2: Approve Register */}
-          <Step key={hasReferral || refParam ? 2 : 1}>
+          <Step key={2}>
             <StepLabel>
               <span className={styles.label}>Approve Register</span>
             </StepLabel>
@@ -232,7 +223,6 @@ function Register() {
               <input
                 type="text"
                 name={"amount"}
-                // Now we allow the user to enter an amount regardless of referral.
                 placeholder={"Amount"}
                 className={"input input-secondary w-full mt-2"}
                 value={amount}
@@ -251,7 +241,6 @@ function Register() {
                     }
                     setWaitWeb3(true);
                     try {
-                      // Calculate amount to approve if needed.
                       const amountToApprove = (
                         (Number(amount) * 105) /
                         100
@@ -263,7 +252,7 @@ function Register() {
                         hash: approveTransaction,
                       });
                       // Move to the final registration step.
-                      setActiveStep((prev) => prev + 1);
+                      setActiveStep(3);
                     } catch (err: any) {
                       if (
                         err.name === "TransactionExecutionError" &&
@@ -288,7 +277,7 @@ function Register() {
           </Step>
 
           {/* Step 3: Register */}
-          <Step key={hasReferral || refParam ? 3 : 2}>
+          <Step key={3}>
             <StepLabel>
               <span className={styles.label}>Register</span>
             </StepLabel>

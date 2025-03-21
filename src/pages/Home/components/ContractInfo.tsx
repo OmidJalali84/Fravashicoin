@@ -3,6 +3,8 @@ import proccessAnimation from "../../../assets/animations/process.json";
 import LaunchIcon from "@mui/icons-material/Launch";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import WaterfallChartIcon from "@mui/icons-material/WaterfallChart";
 import BackgroundShape from "../../../assets/about-shape.png";
 import { getContractInfo } from "../../../modules/web3/actions.ts";
 import { yankClipboard } from "../../../modules/clipboard.ts";
@@ -98,11 +100,22 @@ export default function HowToStartModule() {
             </div>
 
             <div className={"flex flex-col"}>
-              <span className={"text-2xl mt-10"}>DAI Liquidity </span>
+              <span className={"text-2xl mt-10"}>Price </span>
               <span
                 className={" text-2xl font-bold text-center text-green-600"}
               >
-                {data.daiLiquidity || "0"}
+                {data.price || "0"} &nbsp;
+                <WaterfallChartIcon />
+              </span>
+            </div>
+
+            <div className={"flex flex-col"}>
+              <span className={"text-2xl mt-10"}>DAI Liquidity </span>
+              <span
+                className={" text-2xl font-bold text-center text-secondary"}
+              >
+                {data.daiLiquidity || "0"} &nbsp;
+                <CurrencyExchangeIcon />
               </span>
             </div>
 
@@ -111,16 +124,8 @@ export default function HowToStartModule() {
               <span
                 className={" text-2xl font-bold text-center text-green-600"}
               >
-                {data.fravashiLiquidity || "0"}
-              </span>
-            </div>
-
-            <div className={"flex flex-col"}>
-              <span className={"text-2xl mt-10"}>Price </span>
-              <span
-                className={" text-2xl font-bold text-center text-green-600"}
-              >
-                {data.price || "0"}
+                {data.fravashiLiquidity || "0"} &nbsp;
+                <CurrencyExchangeIcon />
               </span>
             </div>
 

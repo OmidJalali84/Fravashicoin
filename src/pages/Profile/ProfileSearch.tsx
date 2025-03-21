@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useAccount } from "wagmi";
 import {
   getUserInfoWithUsername,
-  getUserBalanceByUsername,
+  getUserBalance,
 } from "../../modules/web3/actions";
 import ProfileBanner, {
   PropsProfileBanner,
@@ -16,20 +15,20 @@ import ProfileStage from "../../components/profile/ProfileStage";
 import { useEffect } from "react";
 
 export default function ProfileSearch() {
-  const { address } = useAccount();
   const { username } = useParams();
 
   const navigate = useNavigate();
 
   const { data: userInfo } = getUserInfoWithUsername(username ? username : "");
-  const { data: userBalance } = getUserBalanceByUsername(
-    username ? username : ""
+  const { data: userBalance } = getUserBalance(
+    userInfo ? userInfo?.userAddress : ""
   );
 
 
   useEffect(() => {
     (async () => {
       console.log(userInfo)
+      console.log(userBalance)
       if (!userInfo) {
         return;
       }
@@ -43,11 +42,12 @@ export default function ProfileSearch() {
 
   // Prepare data for the ProfileBanner & ProfileCards
   const profileBannerData: PropsProfileBanner = {
-    walletAddr: address,
+    walletAddr: userInfo?.userAddress,
     userBalance: userBalance ? parseInt(userBalance ?? "0") / 1e18 : 0,
     username: userInfo?.username,
-    joined: userInfo?.registerTime.toString(),
+    joined: userInfo?.registrationTime.toString(),
   };
+
   const data = {
     username: userInfo?.username,
     active: userInfo?.active,
@@ -56,8 +56,8 @@ export default function ProfileSearch() {
       userInfo?.middleUsername == "" ? "nobody" : userInfo?.middleUsername,
     rightUser:
       userInfo?.rightUsername == "" ? "nobody" : userInfo?.rightUsername,
-    firstDirectLock: userInfo?.firstDirectLock
-      ? parseInt(userInfo?.firstDirectLock) / 1e18
+    firstDirectLock: userInfo?.firstDirectLockAmount
+      ? parseInt(userInfo?.firstDirectLockAmount) / 1e18
       : 0,
     upgradeCredit: userInfo?.upgradeCredit
       ? parseInt(userInfo?.upgradeCredit) / 1e18
@@ -65,23 +65,21 @@ export default function ProfileSearch() {
   };
 
   const specifyPlace = (placeIndex: number) => {
-    if (placeIndex == 0) return "Left";
+    if (placeIndex == 0) return "Right";
     else if (placeIndex == 1) return "Middle";
-    else if (placeIndex == 2) return "Right";
+    else if (placeIndex == 2) return "Left";
+    else return "Owner";
   };
 
   const stage = {
     username: userInfo?.username,
-    upline: userInfo?.upline,
-    // upline: userInfo?.uplineUsername,
-    place: specifyPlace(parseInt(userInfo?.place) ?? "0"),
-    registerTime: parseInt(userInfo?.registerTime ?? "0"),
+    upline:
+      userInfo?.referrerUsername === "" ? "nobody" : userInfo?.referrerUsername,
+    place: specifyPlace(parseInt(userInfo?.position) ?? "0"),
+    registerTime: parseInt(userInfo?.registrationTime ?? "0"),
     unlockedLevels: parseInt(userInfo?.unlockedLevels ?? "0"),
     entryAmount: userInfo?.entryAmount
       ? parseInt(userInfo?.entryAmount) / 1e18
-      : 0,
-    entryToken: userInfo?.entryToken
-      ? parseInt(userInfo?.entryToken) / 1e18
       : 0,
     upgradeCredit: userInfo?.upgradeCredit
       ? parseInt(userInfo?.upgradeCredit) / 1e18
@@ -89,20 +87,33 @@ export default function ProfileSearch() {
     totalFrozenTokens: userInfo?.totalFrozenTokens
       ? parseInt(userInfo?.totalFrozenTokens) / 1e18
       : 0,
-    firstDirectLock: userInfo?.firstDirectLock
-      ? parseInt(userInfo?.firstDirectLock) / 1e18
+    firstDirectLock: userInfo?.firstDirectLockAmount
+      ? parseInt(userInfo?.firstDirectLockAmount) / 1e18
       : 0,
-    thirdDirectLock: userInfo?.thirdDirectLock
-      ? parseInt(userInfo?.thirdDirectLock) / 1e18
+    thirdDirectLock: userInfo?.thirdDirectLockAmount
+      ? parseInt(userInfo?.thirdDirectLockAmount) / 1e18
       : 0,
     directs: parseInt(userInfo?.directs ?? "0"),
     rightUsername:
       userInfo?.rightUsername == "" ? "___" : userInfo?.rightUsername,
+    rightReward: userInfo?.rightReward
+      ? parseInt(userInfo?.rightReward) / 1e18
+      : 0,
     middleUsername:
       userInfo?.middleUsername == "" ? "___" : userInfo?.middleUsername,
+    middleReward: userInfo?.middleReward
+      ? parseInt(userInfo?.middleReward) / 1e18
+      : 0,
     leftUsername: userInfo?.leftUsername == "" ? "___" : userInfo?.leftUsername,
+    leftReward: userInfo?.leftReward
+      ? parseInt(userInfo?.leftReward) / 1e18
+      : 0,
+    totalReward: userInfo?.totalReward
+      ? parseInt(userInfo?.totalReward) / 1e18
+      : 0,
     active: userInfo?.active ?? false,
   };
+
 
   return (
     <main
@@ -133,7 +144,7 @@ export default function ProfileSearch() {
 
       <ProfileCards {...data} />
 
-      <ProfileStage stage={stage} />
+      <ProfileStage stage={stage} isSearch = {true} />
 
       <div className={"my-2"} />
     </main>

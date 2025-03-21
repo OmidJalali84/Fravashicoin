@@ -19,7 +19,7 @@ export default function Plans() {
           }
         >
           <img src={diamond} alt="gem" className={"w-32 h-32"} />
-          <h3 className={"text-2xl font-bold"}>DIAMOND PLAN</h3>
+          <h3 className={"text-3xl font-bold"}>DIAMOND PLAN</h3>
           <div className={" border-b border-secondary w-1/2"}></div>
           <span className="text-4xl">+500$ Registration</span>
         </div>
@@ -42,7 +42,7 @@ export default function Plans() {
           }
         >
           <img src={silver} alt="gem" className={"w-32 h-32"} />
-          <h3 className={"text-3xl font-bold "}>GOLD PLAN</h3>
+          <h3 className={"text-3xl font-bold "}>SILVER PLAN</h3>
           <div className={"border-b border-secondary w-1/2"}></div>
           <span className="text-4xl">50$ - 150$ Registration</span>
         </div>
@@ -52,7 +52,7 @@ export default function Plans() {
           }
         >
           <img src={bronze} alt="gem" className={"w-32 h-32"} />
-          <h3 className={"text-2xl font-bold"}>DIAMOND PLAN</h3>
+          <h3 className={"text-3xl font-bold"}>BRONZE PLAN</h3>
           <div className={"border-b border-secondary w-1/2"}></div>
           <span className="text-4xl">10$ - 50$ Registration</span>
         </div>

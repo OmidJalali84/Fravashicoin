@@ -4,7 +4,7 @@ import { polygon, arbitrumSepolia } from "wagmi/chains";
 import { walletConnect, injected, coinbaseWallet } from "wagmi/connectors";
 
 //changed main and token
-export const contractMainAddr = "0x92dD6f15a438730C052e4547c6F37A98B25df2bF";
+export const contractMainAddr = "0x91CDcDeD0C908713A3b093F8a61b968701Bba066";
 export const contractUsdAddr = "0x320f0Ed6Fc42b0857e2b598B5DA85103203cf5d3";
 
 // walletconnect
