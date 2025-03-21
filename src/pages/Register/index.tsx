@@ -7,7 +7,6 @@ import {
   approveUser,
   getUserInfo,
   getUserInfoByUsername,
-  getUserAddressByUsername,
   registerUser,
   zeroAddr,
 } from "../../modules/web3/actions.ts";
