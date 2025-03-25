@@ -38,6 +38,13 @@ const routes = [
       return { Component: ProfileSearch };
     },
   },
+  {
+    path: Path.SWAP,
+    async lazy() {
+      let { default: Swap } = await import("../pages/Swap");
+      return { Component: Swap };
+    },
+  },
   // {
   //   path: Path.PROFILE + "/:username/chart",
   //   async lazy() {

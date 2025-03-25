@@ -62,7 +62,7 @@ export default function HowToStartModule() {
               className={"mt-4 mb-10"}
               target={"_blank"}
               href={
-                "https://sepolia.arbiscan.io//address/0x85c3076A569DCD505c867c4dfd53e622c24F47D8#readContract"
+                "https://polygonscan.com/address/0x49AF5ad4d63f0FcFF34534B5DA64E80Da169b207"
               }
             >
               <span
@@ -70,7 +70,7 @@ export default function HowToStartModule() {
                   "text-blue-700 text-lg bg-blue-600/10 p-3 rounded-full mt-2"
                 }
               >
-                Arbitrum Scan
+                Polygon Scan
                 <LaunchIcon />
               </span>
             </a>

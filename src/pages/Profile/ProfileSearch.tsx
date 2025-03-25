@@ -1,7 +1,11 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import {
   getUserInfoWithUsername,
   getUserBalance,
+  getUnlockedAmount,
+  getLockedAmount,
+  zeroAddr,
 } from "../../modules/web3/actions";
 import ProfileBanner, {
   PropsProfileBanner,
@@ -17,18 +21,32 @@ import { useEffect } from "react";
 export default function ProfileSearch() {
   const { username } = useParams();
 
+  const [totalBalance, setTotalBalance] = useState(0);
+
   const navigate = useNavigate();
 
   const { data: userInfo } = getUserInfoWithUsername(username ? username : "");
   const { data: userBalance } = getUserBalance(
     userInfo ? userInfo?.userAddress : ""
   );
+  const { data: unlockedBalance } = getUnlockedAmount(
+    userInfo ? userInfo.userAddress : zeroAddr
+  );
+  const { data: lockedBalance } = getLockedAmount(
+    userInfo ? userInfo.userAddress : zeroAddr
+  );
 
+  useEffect(() => {
+    const balance =
+      (parseInt(userBalance) +
+        parseInt(unlockedBalance) +
+        parseInt(lockedBalance)) /
+      1e18;
+    setTotalBalance(balance);
+  }, [userBalance, unlockedBalance, lockedBalance]);
 
   useEffect(() => {
     (async () => {
-      console.log(userInfo)
-      console.log(userBalance)
       if (!userInfo) {
         return;
       }
@@ -43,7 +61,7 @@ export default function ProfileSearch() {
   // Prepare data for the ProfileBanner & ProfileCards
   const profileBannerData: PropsProfileBanner = {
     walletAddr: userInfo?.userAddress,
-    userBalance: userBalance ? parseInt(userBalance ?? "0") / 1e18 : 0,
+    userBalance: totalBalance,
     username: userInfo?.username,
     joined: userInfo?.registrationTime.toString(),
   };
@@ -84,9 +102,8 @@ export default function ProfileSearch() {
     upgradeCredit: userInfo?.upgradeCredit
       ? parseInt(userInfo?.upgradeCredit) / 1e18
       : 0,
-    totalFrozenTokens: userInfo?.totalFrozenTokens
-      ? parseInt(userInfo?.totalFrozenTokens) / 1e18
-      : 0,
+    lockedAmount: lockedBalance ? parseInt(lockedBalance) / 1e18 : 0,
+    unlockedAmount: unlockedBalance ? parseInt(unlockedBalance) / 1e18 : 0,
     firstDirectLock: userInfo?.firstDirectLockAmount
       ? parseInt(userInfo?.firstDirectLockAmount) / 1e18
       : 0,
@@ -113,7 +130,6 @@ export default function ProfileSearch() {
       : 0,
     active: userInfo?.active ?? false,
   };
-
 
   return (
     <main
@@ -144,7 +160,7 @@ export default function ProfileSearch() {
 
       <ProfileCards {...data} />
 
-      <ProfileStage stage={stage} isSearch = {true} />
+      <ProfileStage stage={stage} isSearch={true} />
 
       <div className={"my-2"} />
     </main>

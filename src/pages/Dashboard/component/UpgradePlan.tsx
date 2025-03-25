@@ -9,7 +9,6 @@ import { waitForTransactionReceipt } from "wagmi/actions";
 import { config } from "../../../modules/web3/config";
 
 export default function UpgradePlan(prop) {
-  const [isDai, setIsDai] = useState(true);
   const amountValue = useRef("");
   const [loading, setLoading] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
@@ -62,9 +61,7 @@ export default function UpgradePlan(prop) {
       <div className="flex flex-col mt-4">
         <div className="mb-2 flex flex-row items-center justify-between">
           <div className="inline justify-start">
-            <span className="font-bold mb-2">
-              Amount in {isDai ? "DAI" : "MATIC"}:
-            </span>
+            <span className="font-bold mb-2">Amount in DAI:</span>
           </div>
           <div className="flex justify-end">
             <span className="w-fit self-end">
@@ -83,11 +80,7 @@ export default function UpgradePlan(prop) {
             onClick={() => setIsDai(!isDai)}
             className="btn input-bordered join-item"
           >
-            {isDai ? (
-              <img alt="DAI" className="inline w-6" src={DaiLogo} />
-            ) : (
-              <img alt="MATIC" className="inline w-6" src={MaticLogo} />
-            )}
+            <img alt="DAI" className="inline w-6" src={DaiLogo} />
           </span>
           <input
             className="input input-bordered join-item w-[90%]"

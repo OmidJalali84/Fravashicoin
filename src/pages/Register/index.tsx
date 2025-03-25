@@ -85,8 +85,13 @@ function Register() {
     if (userInfo && userInfo.active) {
       toast.success("You Have Already Registered!");
       console.log(userInfo);
-      // navigate(Path.DASHBOARD);
-      // return;
+      navigate(Path.DASHBOARD);
+      return;
+    }
+
+    if(username == ""){
+      toast.error("Invalid Username");
+      return
     }
 
     try {

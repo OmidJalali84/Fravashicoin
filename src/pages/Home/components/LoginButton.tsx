@@ -28,7 +28,7 @@ export default function LoginButton() {
       </button>
       <button
         className="btn btn-primary px-10"
-        onClick={() => toast.info("Swapping is not available now")}
+        onClick={() => navigate(Path.SWAP)}
       >
         Swap FRV
       </button>

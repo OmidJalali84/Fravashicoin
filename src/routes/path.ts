@@ -4,6 +4,7 @@ const Path = {
   REGISTER: "/register",
   DASHBOARD: "/dashboard",
   PROFILE: "/profile",
+  SWAP: "/swap"
 };
 
 export default Path;

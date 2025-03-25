@@ -5,6 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   getUserInfo,
   getUserBalance,
+  getUnlockedAmount,
+  getLockedAmount,
   zeroAddr,
 } from "../../modules/web3/actions";
 import ProfileBanner, {
@@ -25,14 +27,28 @@ export default function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   // const navigate = useNavigate();
 
+  const [totalBalance, setTotalBalance] = useState(0);
+
   // Fetch main user info
   const { data: userInfo } = getUserInfo(address || zeroAddr);
   const { data: userBalance } = getUserBalance(address || zeroAddr);
+  const { data: unlockedBalance } = getUnlockedAmount(address || zeroAddr);
+  const { data: lockedBalance } = getLockedAmount(address || zeroAddr);
+
+  useEffect(() => {
+
+    const balance =
+      (parseInt(userBalance) +
+        parseInt(unlockedBalance) +
+        parseInt(lockedBalance)) /
+      1e18;
+    setTotalBalance(balance);
+  }, [userBalance, unlockedBalance, lockedBalance]);
 
   // Prepare data for the ProfileBanner & ProfileCards
   const profileBannerData: PropsProfileBanner = {
     walletAddr: address,
-    userBalance: userBalance ? parseInt(userBalance ?? "0") / 1e18 : 0,
+    userBalance: totalBalance,
     username: userInfo?.username,
     joined: userInfo?.registrationTime.toString(),
   };
@@ -73,9 +89,8 @@ export default function Dashboard() {
     upgradeCredit: userInfo?.upgradeCredit
       ? parseInt(userInfo?.upgradeCredit) / 1e18
       : 0,
-    totalFrozenTokens: userInfo?.totalFrozenTokens
-      ? parseInt(userInfo?.totalFrozenTokens) / 1e18
-      : 0,
+    lockedAmount: lockedBalance ? parseInt(lockedBalance) / 1e18 : 0,
+    unlockedAmount: unlockedBalance ? parseInt(unlockedBalance) / 1e18 : 0,
     firstDirectLock: userInfo?.firstDirectLockAmount
       ? parseInt(userInfo?.firstDirectLockAmount) / 1e18
       : 0,
@@ -170,7 +185,7 @@ export default function Dashboard() {
         </button>
       </div>
 
-      <ProfileStage stage={stage} isSearch = {false}/>
+      <ProfileStage stage={stage} isSearch={false} />
 
       <Modal
         open={modalOpen}

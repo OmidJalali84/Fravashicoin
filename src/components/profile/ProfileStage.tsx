@@ -10,7 +10,10 @@ interface Stage {
   registerTime: number;
   unlockedLevels: number;
   entryAmount: number;
-  totalFrozenTokens: number;
+  lockedAmount: number;
+  unlockedAmount: number;
+  firstDirectLock: number;
+  thirdDirectLock: number;
   directs: number;
   rightUsername: string;
   rightReward: number;
@@ -81,14 +84,43 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
           </span>
         </div>
 
-        <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
-          <span className="text-lg font-bold whitespace-nowrap">
-            Total Frozen Tokens
-          </span>
-          <span className="text-s font-bold text-center w-1/4">
-            {Math.round(stage.totalFrozenTokens)} FRV
-          </span>
-        </div>
+        {isSearch || (
+          <>
+            {" "}
+            <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
+              <span className="text-lg font-bold whitespace-nowrap">
+                Total Unlocked Tokens
+              </span>
+              <span className="text-s font-bold text-center w-1/4">
+                {Math.round(stage.unlockedAmount)} FRV
+              </span>
+            </div>
+            <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
+              <span className="text-lg font-bold whitespace-nowrap">
+                Total Locked Tokens
+              </span>
+              <span className="text-s font-bold text-center w-1/4">
+                {Math.round(stage.lockedAmount)} FRV
+              </span>
+            </div>
+            <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
+              <span className="text-lg font-bold whitespace-nowrap">
+                First Direct Lock
+              </span>
+              <span className="text-s font-bold text-center w-1/4">
+                {Math.round(stage.firstDirectLock)}$
+              </span>
+            </div>
+            <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
+              <span className="text-lg font-bold whitespace-nowrap">
+                Third Direct Lock
+              </span>
+              <span className="text-s font-bold text-center w-1/4">
+                {Math.round(stage.thirdDirectLock)}$
+              </span>
+            </div>
+          </>
+        )}
 
         <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
           <span className="text-lg font-bold md:text-center w-1/6">
@@ -112,7 +144,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Right Reward
             </span>
             <span className="text-lg  font-bold text-center w-1/4">
-              {Math.round(stage.rightReward)}
+              {Math.round(stage.rightReward)}$
             </span>
           </div>
         )}
@@ -130,7 +162,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Middle Reward
             </span>
             <span className="text-lg  font-bold text-center w-1/4">
-              {Math.round(stage.middleReward)}
+              {Math.round(stage.middleReward)}$
             </span>
           </div>
         )}
@@ -148,7 +180,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Left Reward
             </span>
             <span className="text-lg font-bold text-center w-1/4">
-              {Math.round(stage.leftReward)}
+              {Math.round(stage.leftReward)}$
             </span>
           </div>
         )}
@@ -158,7 +190,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Total Reward
             </span>
             <span className="text-lg font-bold text-center w-1/4">
-              {Math.round(stage.totalReward)}
+              {Math.round(stage.totalReward)}$
             </span>
           </div>
         )}

@@ -75,7 +75,7 @@ export function getUserBalance(address: string): { data: any } {
 }
 
 export function getUserBalanceByUsername(username: string): { data: any } {
-  const address = getUserAddressByUsername(username)
+  const address = getUserAddressByUsername(username);
   return useReadContract({
     abi: abiMain,
     address: contractMainAddr,
@@ -104,6 +104,28 @@ export function approveUser(amount: string) {
     abi: abiMain,
     functionName: "approve",
     args: [contractMainAddr, parseEther(amount)],
+  });
+}
+
+export function approveUserFrv(amount: string) {
+  return writeContract(config, {
+    address: contractMainAddr,
+    abi: abiMain,
+    functionName: "approve",
+    args: [contractMainAddr, parseEther(amount)],
+  });
+}
+
+export function swapAction(
+  address: string,
+  amount: string,
+  isFRVToDAI: boolean
+) {
+  return writeContract(config, {
+    address: contractMainAddr,
+    abi: abiMain,
+    functionName: "swap",
+    args: [address, isFRVToDAI, parseEther(amount)],
   });
 }
 
@@ -168,6 +190,48 @@ export function getUserInfoWithUsername(username: string = ""): { data: any } {
     address: contractMainAddr,
     functionName: "getUserByUsername",
     args: [username],
+    query: {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchInterval: 10000,
+    },
+  });
+}
+
+export function getUnlockedAmount(address: string = zeroAddr): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "unlockedAmount",
+    args: [address],
+    query: {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchInterval: 10000,
+    },
+  });
+}
+
+export function getLockedAmount(address: string = zeroAddr): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "lockedAmount",
+    args: [address],
+    query: {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchInterval: 10000,
+    },
+  });
+}
+
+export function getPrice(): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "price",
+    args: [],
     query: {
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",

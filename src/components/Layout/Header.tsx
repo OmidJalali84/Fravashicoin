@@ -39,7 +39,7 @@ export default function Header() {
             <Link to="/register">Register</Link>
           </li>
           <li>
-            <Link to="/">Swap</Link>
+            <Link to="/swap">Swap</Link>
           </li>
           {state.showProfile && (
             <li>
