@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Path from "../../../routes/path.ts";
 import { getUserInfo, zeroAddr } from "../../../modules/web3/actions.ts";
-import { toast } from "react-toastify";
 
 export default function LoginButton() {
   const { address, isConnected } = useAccount();
