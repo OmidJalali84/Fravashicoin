@@ -62,7 +62,7 @@ export default function HowToStartModule() {
               className={"mt-4 mb-10"}
               target={"_blank"}
               href={
-                "https://polygonscan.com/address/0x49AF5ad4d63f0FcFF34534B5DA64E80Da169b207"
+                "https://polygonscan.com/address/0x5a739D7aF718f105a41c2A5466812227341ba4e9"
               }
             >
               <span

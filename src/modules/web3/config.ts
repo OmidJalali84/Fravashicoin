@@ -4,7 +4,7 @@ import { polygon } from "wagmi/chains";
 import { walletConnect, injected, coinbaseWallet } from "wagmi/connectors";
 
 //changed main and token
-export const contractMainAddr = "0x49AF5ad4d63f0FcFF34534B5DA64E80Da169b207";
+export const contractMainAddr = "0x5a739D7aF718f105a41c2A5466812227341ba4e9";
 export const contractUsdAddr = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
 
 // walletconnect
