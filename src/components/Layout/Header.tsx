@@ -2,10 +2,26 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { Link } from "react-router-dom";
 import LogoHeader from "../../../public/frv-logo.png";
+import { getPrice } from "../../modules/web3/actions";
 
 export default function Header() {
   const { isConnected } = useAccount();
   const [state, setState] = useState({ showProfile: false });
+  const [pricePercentage, setPricePercentage] = useState<number | null>(null);
+  const BASE_PRICE = 0.0001;
+
+  const { data: price } = getPrice();
+
+  useEffect(() => {
+    console.log(price);
+    if (price) {
+      const priceValue = Number(price) / 1e18;
+      const percentage = ((priceValue - BASE_PRICE) / BASE_PRICE) * 100;
+      setPricePercentage(percentage);
+    } else if (Number(price) === 0) {
+      setPricePercentage(0);
+    }
+  }, [price]);
 
   useEffect(() => {
     if (sessionStorage.getItem("address")) {
@@ -19,10 +35,19 @@ export default function Header() {
 
   return (
     <nav className="navbar sticky top-0 z-[999] border-b-2 border-gray-700 bg-cyan-500/10 backdrop-blur">
-      {/* LEFT: Logo */}
+      {/* LEFT: Logo and Price Percentage */}
       <div className="navbar-start">
         <Link to="/" className="flex items-center ml-2">
           <img src={LogoHeader} alt="Logo" className="w-10 h-auto" />
+          {pricePercentage !== null && (
+            <span
+              className={`ml-4 font-bold ${
+                pricePercentage < 0 ? "text-red-500" : "text-green-500"
+              }`}
+            >
+              {pricePercentage.toFixed(2)}%
+            </span>
+          )}
         </Link>
       </div>
 
@@ -89,7 +114,7 @@ export default function Header() {
               <Link to="/register">Register</Link>
             </li>
             <li>
-              <Link to="/">Swap</Link>
+              <Link to="/swap">Swap</Link>
             </li>
             {state.showProfile && (
               <li>
