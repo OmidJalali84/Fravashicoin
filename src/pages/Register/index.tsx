@@ -8,7 +8,6 @@ import {
   getUserInfo,
   getUserInfoByUsername,
   registerUser,
-  enoughBalance,
   zeroAddr,
 } from "../../modules/web3/actions.ts";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -63,10 +62,6 @@ function Register() {
   const { data: refInfo } = getUserInfoByUsername(
     refUsername ? refUsername : ""
   );
-  const hasEnoughBalance = enoughBalance(
-    address ? address : zeroAddr,
-    amount.toString()
-  );
 
   // const { data: refAddress } = getUserAddressByUsername(
   //   refUsername ? refUsername : ""
@@ -94,9 +89,9 @@ function Register() {
       return;
     }
 
-    if (username == "") {
+    if(username == ""){
       toast.error("Invalid Username");
-      return;
+      return
     }
 
     try {
@@ -139,40 +134,11 @@ function Register() {
     setWaitWeb3(false);
   };
 
-  const handleApprove = async () => {
-    setWaitWeb3(true);
-    try {
-      if (hasEnoughBalance) {
-        const amountToApprove = ((Number(amount) * 105) / 100).toString();
-        const approveTransaction = await approveUser(amountToApprove);
-        await waitForTransactionReceipt(config, {
-          hash: approveTransaction,
-        });
-        // Move to the final registration step.
-        setActiveStep(3);
-      } else {
-        throw new Error("Not Enough Balance");
-      }
-    } catch (err: any) {
-      if (
-        err.name === "TransactionExecutionError" &&
-        /rejected/.test(err.message)
-      ) {
-        toast.error("User rejected approval");
-      } else {
-        toast.error(String(err.message));
-      }
-    }
-    setWaitWeb3(false);
-  };
-
   return (
     <main className={"mx-auto max-w-screen-xl"}>
       <div className={"flex flex-col gap-6 pt-12 px-10 mb-10"}>
         <div className={"py-4"}>
-          <span className={"font-bold text-2xl"}>
-            Register stage in Fravashicoin
-          </span>
+          <span className={"font-bold text-2xl"}>Register stage in Fravashicoin</span>
           <br />
           <span>
             Please connect your wallet and then go through the register process
@@ -277,7 +243,31 @@ function Register() {
                       toast.error("Register amount should be greater than 10$");
                       return;
                     }
-                    handleApprove();
+                    setWaitWeb3(true);
+                    try {
+                      const amountToApprove = (
+                        (Number(amount) * 105) /
+                        100
+                      ).toString();
+                      const approveTransaction = await approveUser(
+                        amountToApprove
+                      );
+                      await waitForTransactionReceipt(config, {
+                        hash: approveTransaction,
+                      });
+                      // Move to the final registration step.
+                      setActiveStep(3);
+                    } catch (err: any) {
+                      if (
+                        err.name === "TransactionExecutionError" &&
+                        /rejected/.test(err.message)
+                      ) {
+                        toast.error("User rejected approval");
+                      } else {
+                        toast.error(String(err.message));
+                      }
+                    }
+                    setWaitWeb3(false);
                   }}
                 >
                   {isLoading() ? (
