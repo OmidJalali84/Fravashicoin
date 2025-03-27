@@ -83,7 +83,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
             Entry Amount
           </span>
           <span className="text-lg font-bold text-center w-1/4">
-            {Math.round(stage.entryAmount)}$
+            {stage.entryAmount.toFixed(2)}$
           </span>
         </div>
 
@@ -111,7 +111,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
                 First Direct Lock
               </span>
               <span className="text-s font-bold text-center w-1/4">
-                {Math.round(stage.firstDirectLock)}$
+                {stage.firstDirectLock.toFixed(2)}$
               </span>
             </div>
             <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
@@ -119,7 +119,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
                 Third Direct Lock
               </span>
               <span className="text-s font-bold text-center w-1/4">
-                {Math.round(stage.thirdDirectLock)}$
+                {stage.thirdDirectLock.toFixed(2)}$
               </span>
             </div>
             <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
@@ -127,7 +127,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
                 DeFi Credit
               </span>
               <span className="text-s font-bold text-center w-1/4">
-                {Math.round(stage.defiCredit)}$
+                {stage.defiCredit.toFixed(2)}$
               </span>
             </div>
           </>
@@ -155,7 +155,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Right Reward
             </span>
             <span className="text-lg  font-bold text-center w-1/4">
-              {Math.round(stage.rightReward)}$
+              {stage.rightReward.toFixed(2)}$
             </span>
           </div>
         )}
@@ -173,7 +173,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Middle Reward
             </span>
             <span className="text-lg  font-bold text-center w-1/4">
-              {Math.round(stage.middleReward)}$
+              {stage.middleReward.toFixed(2)}$
             </span>
           </div>
         )}
@@ -191,7 +191,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Left Reward
             </span>
             <span className="text-lg font-bold text-center w-1/4">
-              {Math.round(stage.leftReward)}$
+              {stage.leftReward.toFixed(2)}$
             </span>
           </div>
         )}
@@ -201,7 +201,7 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               Total Reward
             </span>
             <span className="text-lg font-bold text-center w-1/4">
-              {Math.round(stage.totalReward)}$
+              {stage.totalReward.toFixed(2)}$
             </span>
           </div>
         )}
