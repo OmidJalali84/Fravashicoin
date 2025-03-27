@@ -15,7 +15,7 @@ export default function UpgradePlan(prop) {
 
   const maxSelect = (e) => {
     e.preventDefault();
-    amountValue.current.value = parseInt(prop.upgradeCredit);
+    amountValue.current.value = prop.upgradeCredit;
   };
 
   // Step 1: Handle Approval
