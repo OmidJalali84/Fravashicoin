@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* globals.css (or any global CSS file) */
+@media (max-width: 640px) {
+  /* Adjust .text-xl on small screens */
+  .text-xl {
+    /* Option 1: Make the text smaller so it fits */
+    font-size: 15px;
+    /* Option 2: Or allow wrapping instead of one-line overflow */
+    white-space: normal;
+  }
+  .text-lg {
+    font-size: 13px;
+  }
+}
+
 main {
   margin-bottom: auto;
 }

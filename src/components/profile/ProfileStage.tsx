@@ -10,6 +10,7 @@ interface Stage {
   registerTime: number;
   unlockedLevels: number;
   entryAmount: number;
+  defiCredit: number;
   lockedAmount: number;
   unlockedAmount: number;
   firstDirectLock: number;
@@ -42,7 +43,9 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
         </div>
 
         <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
-          <span className="text-xl font-bold md:text-center w-1/6">Upline</span>
+          <span className="text-xl font-bold md:text-center w-1/6">
+            Referrer
+          </span>
           <span className="text-xl font-bold text-center w-1/4">
             {stage.upline}
           </span>
@@ -117,6 +120,14 @@ export default function ProfileStage({ stage, isSearch }: PropsProfileStage) {
               </span>
               <span className="text-s font-bold text-center w-1/4">
                 {Math.round(stage.thirdDirectLock)}$
+              </span>
+            </div>
+            <div className="bg-gray-600/90 p-3 rounded-lg flex justify-between items-center">
+              <span className="text-lg font-bold whitespace-nowrap">
+                DeFi Credit
+              </span>
+              <span className="text-s font-bold text-center w-1/4">
+                {Math.round(stage.defiCredit)}$
               </span>
             </div>
           </>

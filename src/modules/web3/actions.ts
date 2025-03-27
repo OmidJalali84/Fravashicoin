@@ -239,3 +239,33 @@ export function getPrice(): { data: any } {
     },
   });
 }
+
+export function defiCretits(address: string): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "defiCredits",
+    args: [address],
+    query: {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchInterval: 10000,
+    },
+  });
+}
+
+export function enoughBalance(address: string, amount: string): boolean {
+  const balance = useReadContract({
+    abi: abiMain,
+    address: contractUsdAddr,
+    functionName: "balanceOf",
+    args: [address],
+    query: {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchInterval: 10000,
+    },
+  });
+
+  return Number(balance) > parseEther(amount);
+}

@@ -7,6 +7,7 @@ import {
   getUserBalance,
   getUnlockedAmount,
   getLockedAmount,
+  defiCretits,
   zeroAddr,
 } from "../../modules/web3/actions";
 import ProfileBanner, {
@@ -34,9 +35,9 @@ export default function Dashboard() {
   const { data: userBalance } = getUserBalance(address || zeroAddr);
   const { data: unlockedBalance } = getUnlockedAmount(address || zeroAddr);
   const { data: lockedBalance } = getLockedAmount(address || zeroAddr);
+  const { data: defiCredit } = defiCretits(address || zeroAddr);
 
   useEffect(() => {
-
     const balance =
       (parseInt(userBalance) +
         parseInt(unlockedBalance) +
@@ -89,6 +90,7 @@ export default function Dashboard() {
     upgradeCredit: userInfo?.upgradeCredit
       ? parseInt(userInfo?.upgradeCredit) / 1e18
       : 0,
+    defiCredit: defiCredit ? parseInt(defiCredit) / 1e18 : 0,
     lockedAmount: lockedBalance ? parseInt(lockedBalance) / 1e18 : 0,
     unlockedAmount: unlockedBalance ? parseInt(unlockedBalance) / 1e18 : 0,
     firstDirectLock: userInfo?.firstDirectLockAmount

@@ -24,7 +24,7 @@ export default function ProfileCards({
           }
         >
           <span className={"text-gray-400"}>Left User</span>
-          <span className={"text-xl font-bold"}>{leftUser}</span>
+          <span className={"text-xl font-bold "}>{leftUser}</span>
         </div>
 
         <div

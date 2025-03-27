@@ -13,7 +13,6 @@ export default function Header() {
   const { data: price } = getPrice();
 
   useEffect(() => {
-    console.log(price);
     if (price) {
       const priceValue = Number(price) / 1e18;
       const percentage = ((priceValue - BASE_PRICE) / BASE_PRICE) * 100;

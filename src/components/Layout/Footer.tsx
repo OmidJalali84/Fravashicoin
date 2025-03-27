@@ -42,25 +42,23 @@ export default function Footer() {
             <div className={"flex flex-col items-center w-60"}>
               <span className={"text-2xl"}>Price</span>
               <span className={"text-2xl font-bold text-center text-green-600"}>
-                {data.price || "0"}
+                {data.price || "0"} $
               </span>
             </div>
 
             <div className={"flex flex-col items-center w-60"}>
               <span className={"text-2xl"}>DAI Liquidity</span>
               <span className={"text-2xl font-bold text-center text-secondary"}>
-                {data.daiLiquidity || "0$"}
+                {data.daiLiquidity || "0"} $
               </span>
             </div>
 
             <div className={"flex flex-col items-center w-60"}>
               <span className={"text-2xl"}>Fravashicoin Liquidity</span>
               <span className={"text-2xl font-bold text-center text-green-600"}>
-                {data.fravashiLiquidity || "0 FRV"}
+                {data.fravashiLiquidity || "0"} FRV
               </span>
             </div>
-
-            
           </div>
         </div>
 
