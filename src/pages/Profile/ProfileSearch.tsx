@@ -102,6 +102,8 @@ export default function ProfileSearch() {
     upgradeCredit: userInfo?.upgradeCredit
       ? parseInt(userInfo?.upgradeCredit) / 1e18
       : 0,
+    defiCredit: 0,
+
     lockedAmount: lockedBalance ? parseInt(lockedBalance) / 1e18 : 0,
     unlockedAmount: unlockedBalance ? parseInt(unlockedBalance) / 1e18 : 0,
     firstDirectLock: userInfo?.firstDirectLockAmount
