@@ -23,7 +23,10 @@ export default function UpgradePlan(prop) {
     setLoading(true);
     try {
       // Pass the numeric value from the input to the approval function
-      const amountToSend = (amountValue.current.value * 105) / 100;
+      const amountToSend = (
+        (Number(amountValue.current.value) * 105) /
+        100
+      ).toString();
       const tx = await approveUser(amountToSend);
       await waitForTransactionReceipt(config, { hash: tx });
       toast.success("Approval successful!");
