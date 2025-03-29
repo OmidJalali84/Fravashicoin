@@ -24,7 +24,7 @@ export default function Header() {
       setCurrentPrice(currentPriceValue);
     };
     fetchPrice();
-  });
+  }, []);
 
   useEffect(() => {
     if (sessionStorage.getItem("address")) {
@@ -34,21 +34,25 @@ export default function Header() {
       setState({ ...state, showProfile: false });
       sessionStorage.clear();
     }
-  }, [isConnected, sessionStorage.getItem("address")]);
+  }, [isConnected]);
 
   return (
-    <nav className="navbar sticky top-0 z-[999] border-b-2 border-gray-700 bg-cyan-500/10 backdrop-blur">
+    <nav className="navbar sticky top-0 z-[999] border-b-2 border-gray-700 bg-cyan-500/10 backdrop-blur px-4 py-2">
       {/* LEFT: Logo and Price Percentage */}
-      <div className="navbar-start">
-        <Link to="/" className="flex items-center ml-2">
-          <img src={LogoHeader} alt="Logo" className="w-10 h-auto" />
+      <div className="navbar-start flex items-center space-x-4">
+        <Link to="/" className="flex items-center">
+          <img
+            src={LogoHeader}
+            alt="Logo"
+            className="w-10 h-auto max-w-[40px]"
+          />
         </Link>
-        <Link to="/price" className="flex items-center ml-2">
-          <span className={`ml-4 font-bold text-gray-300 text-xs`}>
+        <Link to="/price" className="flex flex-wrap items-center">
+          <span className="font-bold text-gray-300 text-xs">
             Current FRV Price:
           </span>
           {currentPrice !== null && (
-            <span className={`ml-1 font-bold text-secondary text-xs`}>
+            <span className="ml-1 font-bold text-secondary text-xs">
               {currentPrice.toFixed(6)}$
             </span>
           )}
@@ -68,14 +72,13 @@ export default function Header() {
 
       {/* CENTER: Desktop links (hidden on mobile) */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 space-x-4">
           <li>
             <Link to="/">Home</Link>
           </li>
           <li>
             <Link to="/">Whitepaper</Link>
           </li>
-
           <li>
             <Link to="/register">Register</Link>
           </li>
@@ -94,18 +97,18 @@ export default function Header() {
       </div>
 
       {/* RIGHT: Desktop Connect Wallet + Mobile Hamburger */}
-      <div className="navbar-end">
+      <div className="navbar-end flex items-center">
         {/* Desktop: Connect Wallet on far right */}
-        <div className="hidden lg:block mr-2">
+        <div className="hidden lg:block">
           <w3m-button size="sm" balance="hide" />
         </div>
 
-        {/* Mobile: Hamburger Menu (includes Connect Wallet) */}
+        {/* Mobile: Hamburger Menu */}
         <div className="dropdown dropdown-end lg:hidden">
           <label tabIndex={0} className="btn btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -121,7 +124,7 @@ export default function Header() {
           {/* Mobile menu */}
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 right-0"
           >
             <li>
               <Link to="/">Whitepaper</Link>
