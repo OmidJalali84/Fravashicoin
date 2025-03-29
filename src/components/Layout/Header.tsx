@@ -2,25 +2,29 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { Link } from "react-router-dom";
 import LogoHeader from "../../../public/frv-logo.png";
-import { getPrice } from "../../modules/web3/actions";
+import { getTokenPrice } from "../../pages/Price/utils/getTokenPrice";
 
 export default function Header() {
   const { isConnected } = useAccount();
   const [state, setState] = useState({ showProfile: false });
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
   const [pricePercentage, setPricePercentage] = useState<number | null>(null);
-  const BASE_PRICE = 0.0001;
-
-  const { data: price } = getPrice();
 
   useEffect(() => {
-    if (price) {
-      const priceValue = Number(price) / 1e18;
-      const percentage = ((priceValue - BASE_PRICE) / BASE_PRICE) * 100;
+    const fetchPrice = async () => {
+      const now = Math.floor(Date.now() / 1000);
+      const targetTimestamp = now - 24 * 3600;
+      const currentPricee = await getTokenPrice(now);
+      const basePrice = await getTokenPrice(targetTimestamp);
+      const currentPriceValue = Number(currentPricee) / 1e18;
+      const basePriceValue = Number(basePrice) / 1e18;
+      const percentage =
+        ((currentPriceValue - basePriceValue) / basePriceValue) * 100;
       setPricePercentage(percentage);
-    } else if (Number(price) === 0) {
-      setPricePercentage(0);
-    }
-  }, [price]);
+      setCurrentPrice(currentPriceValue);
+    };
+    fetchPrice();
+  });
 
   useEffect(() => {
     if (sessionStorage.getItem("address")) {
@@ -38,13 +42,25 @@ export default function Header() {
       <div className="navbar-start">
         <Link to="/" className="flex items-center ml-2">
           <img src={LogoHeader} alt="Logo" className="w-10 h-auto" />
+        </Link>
+        <Link to="/price" className="flex items-center ml-2">
+          <span className={`ml-4 font-bold text-gray-300 text-xs`}>
+            Current FRV Price:
+          </span>
+          {currentPrice !== null && (
+            <span className={`ml-1 font-bold text-secondary text-xs`}>
+              {currentPrice.toFixed(6)}$
+            </span>
+          )}
           {pricePercentage !== null && (
             <span
-              className={`ml-4 font-bold ${
+              className={`ml-1 font-bold text-xs ${
                 pricePercentage < 0 ? "text-red-500" : "text-green-500"
               }`}
             >
-              {pricePercentage.toFixed(2)}%
+              {pricePercentage < 0 ? "(-" : "(+"}
+              {pricePercentage.toFixed(2)}
+              {"%)"}
             </span>
           )}
         </Link>
@@ -54,16 +70,20 @@ export default function Header() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link to="/">Whitepaper</Link>
-          </li>
-          <li>
             <Link to="/">Home</Link>
           </li>
+          <li>
+            <Link to="/">Whitepaper</Link>
+          </li>
+
           <li>
             <Link to="/register">Register</Link>
           </li>
           <li>
             <Link to="/swap">Swap</Link>
+          </li>
+          <li>
+            <Link to="/price">Price</Link>
           </li>
           {state.showProfile && (
             <li>

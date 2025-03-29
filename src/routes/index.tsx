@@ -45,6 +45,13 @@ const routes = [
       return { Component: Swap };
     },
   },
+  {
+    path: Path.PRICE,
+    async lazy() {
+      let { default: Price } = await import("../pages/Price");
+      return { Component: Price };
+    },
+  },
   // {
   //   path: Path.PROFILE + "/:username/chart",
   //   async lazy() {

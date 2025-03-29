@@ -40,9 +40,9 @@ export default function UpgradePlan(prop) {
 
   // Step 2: Handle Upgrade
   const callUpgradePlan = async (e) => {
-    e.preventDefault();
-    setLoading(true);
     try {
+      e.preventDefault();
+      setLoading(true);
       const upgradeTransaction = await upgradePlan(amountValue.current.value);
       await waitForTransactionReceipt(config, { hash: upgradeTransaction });
       toast.success("Upgrade request sent! Check your wallet...");
@@ -62,6 +62,44 @@ export default function UpgradePlan(prop) {
 
   return (
     <form className="w-[400px] px-4 pb-4 bg-base-100 rounded-b-lg gap-4 flex flex-col">
+      {/* Step Indicator */}
+      <div className="flex items-center justify-between mb-6">
+        {/* Approve Step */}
+        <div className="flex flex-col items-center">
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+              !isApproved
+                ? "bg-green-500 shadow-lg"
+                : "bg-gray-300 text-gray-600"
+            }`}
+          >
+            1
+          </div>
+          <span className="mt-2 text-xs">Approve</span>
+        </div>
+
+        {/* Connector */}
+        <div className="flex-1 h-1 bg-gray-300 mx-1 relative">
+          <div
+            className={`h-full bg-green-500 ${
+              isApproved ? "w-full" : "w-0"
+            } transition-all duration-300`}
+          ></div>
+        </div>
+
+        {/* Upgrade Step */}
+        <div className="flex flex-col items-center">
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+              isApproved ? "bg-blue-500 shadow-lg" : "bg-gray-300 text-gray-600"
+            }`}
+          >
+            2
+          </div>
+          <span className="mt-2 text-xs">Upgrade</span>
+        </div>
+      </div>
+
       <div className="flex flex-col mt-4">
         <div className="mb-2 flex flex-row items-center justify-between">
           <div className="inline justify-start">
@@ -80,10 +118,7 @@ export default function UpgradePlan(prop) {
           </div>
         </div>
         <div className="join w-full">
-          <span
-            onClick={() => setIsDai(!isDai)}
-            className="btn input-bordered join-item"
-          >
+          <span className="btn input-bordered join-item">
             <img alt="DAI" className="inline w-6" src={DaiLogo} />
           </span>
           <input
@@ -97,14 +132,14 @@ export default function UpgradePlan(prop) {
         </div>
       </div>
 
-      {/* Two-step buttons */}
-      <div className="flex flex-col gap-4">
+      {/* Two-step Buttons */}
+      <div className="flex flex-col gap-4 mt-4">
         {!isApproved && (
           <button
             type="button"
             disabled={loading}
             onClick={handleApproval}
-            className="btn border-0 bg-green-600 text-white/80 rounded-full"
+            className="btn border-0 bg-green-600 hover:bg-green-500 text-white py-3 rounded-full flex items-center justify-center"
           >
             {loading ? (
               <span className="loading loading-spinner"></span>
@@ -119,7 +154,7 @@ export default function UpgradePlan(prop) {
             type="button"
             disabled={loading}
             onClick={callUpgradePlan}
-            className="btn border-0 bg-blue-600 text-white/80 rounded-full"
+            className="btn border-0 bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-full flex items-center justify-center"
           >
             {loading ? (
               <span className="loading loading-spinner"></span>

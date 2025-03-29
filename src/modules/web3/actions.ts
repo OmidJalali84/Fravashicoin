@@ -240,6 +240,21 @@ export function getPrice(): { data: any } {
   });
 }
 
+export function getPriceByBlockNumber(blockNumber: number): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractMainAddr,
+    functionName: "price",
+    blockNumber: BigInt(blockNumber),
+    args: [],
+    query: {
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchInterval: 10000,
+    },
+  });
+}
+
 export function defiCretits(address: string): { data: any } {
   return useReadContract({
     abi: abiMain,

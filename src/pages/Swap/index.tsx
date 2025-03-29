@@ -69,7 +69,7 @@ const Swap: React.FC = () => {
     <main className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8 pt-12 pb-10">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-teal-300">Token Swap</h2>
+          <h2 className="text-3xl font-bold text-secondary">Token Swap</h2>
           <p className="mt-2 text-sm text-gray-400">
             Convert tokens effortlessly on Fravashicoin DEX
           </p>
@@ -89,7 +89,7 @@ const Swap: React.FC = () => {
               }}
               className="w-full p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-teal-300 placeholder-gray-400"
             />
-            <span className="absolute right-3 top-3 text-teal-300 font-medium">
+            <span className="absolute right-3 top-3 text-secondary font-medium">
               {fromToken}
             </span>
           </div>
@@ -125,7 +125,7 @@ const Swap: React.FC = () => {
               value={toAmount}
               className="w-full p-3 bg-gray-700 border border-gray-600 rounded cursor-not-allowed opacity-70"
             />
-            <span className="absolute right-3 top-3 text-teal-300 font-medium">
+            <span className="absolute right-3 top-3 text-secondary font-medium">
               {toToken}
             </span>
           </div>
