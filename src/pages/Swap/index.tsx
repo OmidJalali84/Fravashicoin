@@ -105,7 +105,6 @@ const Swap: React.FC = () => {
   const handleSliderChange = (
     _event: Event,
     newValue: number | number[],
-    activeThumb: number
   ) => {
     const newPercent = Array.isArray(newValue) ? newValue[0] : newValue;
     setPercent(newPercent);
