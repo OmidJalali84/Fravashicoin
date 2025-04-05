@@ -74,6 +74,15 @@ export function getUserBalance(address: string): { data: any } {
   });
 }
 
+export function getUserDaiBalance(address: string): { data: any } {
+  return useReadContract({
+    abi: abiMain,
+    address: contractUsdAddr,
+    functionName: "balanceOf",
+    args: [address],
+  });
+}
+
 export function getUserBalanceByUsername(username: string): { data: any } {
   const address = getUserAddressByUsername(username);
   return useReadContract({

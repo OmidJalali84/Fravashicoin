@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getPrice } from "../../modules/web3/actions";
-import { Box, Modal } from "@mui/material";
+import {
+  getPrice,
+  getUserBalance,
+  getUserDaiBalance,
+  zeroAddr,
+} from "../../modules/web3/actions";
+import { Box, Modal, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SwapModal from "./SwapModal";
+import { useAccount } from "wagmi";
+import { toast } from "react-toastify";
 
 const Swap: React.FC = () => {
   // Two tokens for demonstration.
@@ -15,7 +23,11 @@ const Swap: React.FC = () => {
   const [frvPerDaiPrice, setFrvPerDaiPrice] = useState(NaN);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const { address } = useAccount();
+
   const { data: price } = getPrice();
+  const { data: frvBalance } = getUserBalance(address ? address : zeroAddr);
+  const { data: daiBalance } = getUserDaiBalance(address ? address : zeroAddr);
 
   useEffect(() => {
     if (price) {
@@ -25,6 +37,7 @@ const Swap: React.FC = () => {
       setFrvPerDaiPrice(frvPerDaiPriceValue);
     }
   }, [price]);
+
   // Prices for each token.
   const prices: Record<"DAI" | "FRV", number> = {
     FRV: daiPerFrvPrice,
@@ -39,19 +52,57 @@ const Swap: React.FC = () => {
     return converted.toFixed(4);
   };
 
+  const checkBalances = (): boolean => {
+    if (fromToken === "DAI") {
+      if (Number(fromAmount) < ((Number(daiBalance) / 1e18) * 100) / 105) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (Number(fromAmount) < ((Number(frvBalance) / 1e18) * 100) / 105) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   // Swap tokens between the "from" and "to" fields.
   const handleSwitchTokens = () => {
     setFromToken(toToken);
     setToToken(fromToken);
     // Reset amount so the conversion recalculates cleanly.
     setFromAmount("");
+    setToAmount("");
   };
 
-  const handleOpen = () => setModalOpen(true);
+  const handleOpen = () => {
+    if (!fromAmount || !toAmount || fromAmount === "0" || toAmount === "0") {
+      toast.error("Invalid Input");
+      return;
+    }
+
+    if (!checkBalances()) {
+      toast.error(`Insufficient ${fromToken} Balance`);
+      return;
+    }
+
+    setModalOpen(true);
+  };
 
   const handleSetToAmount = (amount: number) => {
     const toAmountValue = computeToAmount(amount);
     setToAmount(toAmountValue);
+  };
+
+  // Set the maximum balance for the "from" input.
+  const handleSetMax = () => {
+    const maxBalance =
+      fromToken === "DAI" ? Number(daiBalance) : Number(frvBalance);
+    // Set input to the max balance (converted to a string)
+    setFromAmount(maxBalance.toString());
+    handleSetToAmount(maxBalance);
   };
 
   // For the Withdraw modal
@@ -65,6 +116,7 @@ const Swap: React.FC = () => {
     boxShadow: 24,
     borderRadius: "8px",
   };
+
   return (
     <main className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8 pt-12 pb-10">
@@ -85,13 +137,41 @@ const Swap: React.FC = () => {
               value={fromAmount}
               onChange={(e) => {
                 setFromAmount(e.target.value);
-                handleSetToAmount(parseInt(e.target.value));
+                handleSetToAmount(parseFloat(e.target.value));
               }}
               className="w-full p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-teal-300 placeholder-gray-400"
             />
             <span className="absolute right-3 top-3 text-secondary font-medium">
               {fromToken}
             </span>
+            {/* Balance Display, Set Max Button, and Info Icon */}
+            <div className="flex justify-between mt-1 text-xs text-gray-400">
+              <span>
+                Balance:{" "}
+                {fromToken === "DAI"
+                  ? ((Number(daiBalance) / 1e18) * 100) / 105 ?? "0"
+                  : Number(frvBalance) / 1e18 ?? "0"}
+              </span>
+              <div className="flex items-center">
+                <button
+                  onClick={handleSetMax}
+                  className="text-teal-300 hover:underline"
+                >
+                  Set Max
+                </button>
+                {fromToken === "DAI" && (
+                  <Tooltip
+                    title="Tip: A 5% fee applies to all buy transactions. Your available balance shown here is adjusted to reflect the net amount after this fee."
+                    arrow
+                  >
+                    <InfoOutlinedIcon
+                      fontSize="inherit"
+                      className="ml-1 text-teal-300 cursor-pointer"
+                    />
+                  </Tooltip>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Switch Tokens Button */}

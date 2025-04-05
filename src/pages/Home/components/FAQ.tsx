@@ -3,26 +3,27 @@ export default function FAQ() {
     {
       question: "What is a smart contract?",
       answer:
-        "A smart contract is a computer protocol that allows for programmatically automating and managing financial transactions without the need to trust any third party. With a smart contract, a secure and reliable environment for conducting financial operations can be created, which operates automatically and without human intervention.",
+        "A smart contract is a self-executing computer protocol that automates and enforces financial transactions without relying on third-party trust. It creates a secure, tamper-proof environment for financial operations, functioning autonomously and eliminating the need for human intervention.",
     },
     {
       question: "What is Fravashicoin?",
       answer:
-        "Fravashicoin is an online business based on web technology 3.0, completely decentralized and accessible to everyone. Our project is a whole universe of cryptocurrency tools where everything is interconnected, and therefore rapid implementation occurs organically.",
+        "Fravashicoin is a decentralized Web 3.0 platform designed for universal accessibility. It offers an integrated ecosystem of cryptocurrency tools, where seamless interconnectivity enables organic and rapid adoption.",
     },
     {
       question: "Why is Fravashicoin secure?",
       answer:
-        "Fravashicoin is secure. Its operation is fully protected by blockchain technology. Participants do not provide personal data and only use their cryptocurrency wallet address as a login, connected via WEB 3.0. This ensures anonymity. The entire Fravashicoin infrastructure is based on secure smart contracts to prevent external interference, and the website simply displays data from the blockchain.",
+        "Fravashicoin prioritizes security through blockchain technology. The platform operates without requiring personal data - participants access the system exclusively via Web 3.0 using their cryptocurrency wallet addresses, ensuring complete anonymity. All operations are secured by immutable smart contracts that prevent external manipulation. The platform's interface simply reflects blockchain data, maintaining full transparency while eliminating vulnerability points.",
     },
     {
       question: "What do I need to start working with Fravashicoin?",
       answer:
-        "You will need a phone or laptop, a cryptocurrency wallet (Metamask, Trust Wallet, or Tokenpocket), some Matic for paying Polygon network fees, and DAI.",
+        "To get started, you'll need: 1. A smartphone or computer 2. A Web3 wallet (like MetaMask, Trust Wallet, or TokenPocket) 3. Polygon tokens (for Polygon network gas fees) 4. DAI stablecoin for transactions",
     },
     {
       question: "What is the minimum amount of money needed to start earning?",
-      answer: "ou can start earning with 10 DAI, equivalent to 10$.",
+      answer:
+        "The minimum investment to start earning is just 10 DAI (approximately $10). This low entry barrier makes Fravashicoin accessible to everyone.",
     },
     {
       question: "How can I earn with Fravashicoin?",

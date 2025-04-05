@@ -8,8 +8,8 @@ export default function Plans() {
     <section className={"px-8 md:px-20 bg-base-100 py-8 mx-2 rounded-2xl"}>
       <h2 className={"mb-8 text-4xl font-bold shadow"}> Plans</h2>
       <p className="text-xl mb-10">
-        Fravashicoin revenue plan has four percentage styles all income plan are
-        connected diamond, gold, silver and bronze.
+        Fravashicoin's revenue plan has four percentage tiers: Diamond, Gold,
+        Silver, and Bronze. All income plans are interconnected.
       </p>
 
       <div className={"grid lg:grid-cols-2 gap-12 container mx-auto"}>
