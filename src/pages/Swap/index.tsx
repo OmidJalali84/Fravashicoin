@@ -5,7 +5,7 @@ import {
   getUserDaiBalance,
   zeroAddr,
 } from "../../modules/web3/actions";
-import { Box, Modal, Tooltip } from "@mui/material";
+import { Box, Modal, Tooltip, Slider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SwapModal from "./SwapModal";
@@ -18,6 +18,7 @@ const Swap: React.FC = () => {
   const [toToken, setToToken] = useState<"FRV" | "DAI">("FRV");
   const [fromAmount, setFromAmount] = useState<string>("");
   const [toAmount, setToAmount] = useState<string>("");
+  const [percent, setPercent] = useState<number>(0);
 
   const [daiPerFrvPrice, setDaiPerFrvPrice] = useState(NaN);
   const [frvPerDaiPrice, setFrvPerDaiPrice] = useState(NaN);
@@ -47,24 +48,15 @@ const Swap: React.FC = () => {
   // Compute the converted amount based on token prices.
   const computeToAmount = (amount: number): string => {
     if (isNaN(amount)) return "0.0";
-    // Calculate using the ratio: price(fromToken) / price(toToken)
     const converted = amount * prices[fromToken];
     return converted.toFixed(4);
   };
 
   const checkBalances = (): boolean => {
     if (fromToken === "DAI") {
-      if (Number(fromAmount) < ((Number(daiBalance) / 1e18) * 100) / 105) {
-        return true;
-      } else {
-        return false;
-      }
+      return Number(fromAmount) < ((Number(daiBalance) / 1e18) * 100) / 105;
     } else {
-      if (Number(fromAmount) < ((Number(frvBalance) / 1e18) * 100) / 105) {
-        return true;
-      } else {
-        return false;
-      }
+      return Number(fromAmount) < ((Number(frvBalance) / 1e18) * 100) / 105;
     }
   };
 
@@ -72,9 +64,9 @@ const Swap: React.FC = () => {
   const handleSwitchTokens = () => {
     setFromToken(toToken);
     setToToken(fromToken);
-    // Reset amount so the conversion recalculates cleanly.
     setFromAmount("");
     setToAmount("");
+    setPercent(0);
   };
 
   const handleOpen = () => {
@@ -82,12 +74,10 @@ const Swap: React.FC = () => {
       toast.error("Invalid Input");
       return;
     }
-
     if (!checkBalances()) {
       toast.error(`Insufficient ${fromToken} Balance`);
       return;
     }
-
     setModalOpen(true);
   };
 
@@ -96,15 +86,33 @@ const Swap: React.FC = () => {
     setToAmount(toAmountValue);
   };
 
+  // Compute the maximum available balance.
+  const getMaxBalance = () => {
+    return fromToken === "DAI"
+      ? ((Number(daiBalance) / 1e18) * 100) / 105
+      : Number(frvBalance) / 1e18;
+  };
+
   // Set the maximum balance for the "from" input.
   const handleSetMax = () => {
-    const maxBalance =
-      fromToken === "DAI"
-        ? ((Number(daiBalance) / 1e18) * 100) / 105
-        : Number(frvBalance) / 1e18;
-    // Set input to the max balance (converted to a string)
+    const maxBalance = getMaxBalance();
     setFromAmount(maxBalance.toString());
     handleSetToAmount(maxBalance);
+    setPercent(100);
+  };
+
+  // Handle slider changes to update the fromAmount based on percentage.
+  const handleSliderChange = (
+    _event: Event,
+    newValue: number | number[],
+    activeThumb: number
+  ) => {
+    const newPercent = Array.isArray(newValue) ? newValue[0] : newValue;
+    setPercent(newPercent);
+    const maxBalance = getMaxBalance();
+    const calculatedAmount = (maxBalance * newPercent) / 100;
+    setFromAmount(calculatedAmount.toString());
+    handleSetToAmount(calculatedAmount);
   };
 
   // For the Withdraw modal
@@ -128,7 +136,6 @@ const Swap: React.FC = () => {
             Convert tokens effortlessly on Fravashicoin DEX
           </p>
         </div>
-
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg space-y-6">
           {/* From Section */}
           <div className="relative">
@@ -174,8 +181,43 @@ const Swap: React.FC = () => {
                 )}
               </div>
             </div>
+            {/* Percent Slider with circle points */}
+            <div className="mt-2">
+              <Slider
+                value={percent}
+                onChange={handleSliderChange}
+                valueLabelDisplay="auto"
+                aria-labelledby="input-slider"
+                min={0}
+                max={100}
+                marks={[
+                  { value: 25, label: "25%" },
+                  { value: 50, label: "50%" },
+                  { value: 75, label: "75%" },
+                ]}
+                sx={{
+                  color: "#03E5FC",
+                  "& .MuiSlider-mark": {
+                    height: 10,
+                    width: 10,
+                    borderRadius: "50%",
+                    border: "2px solid white",
+                    backgroundColor: "white",
+                    transform: "translate(-50%, -50%)",
+                  },
+                  "& .MuiSlider-markActive": {
+                    border: "3px solid #03E5FC",
+                    backgroundColor: "white",
+                  },
+                  "& .MuiSlider-markLabel": {
+                    color: "white",
+                    fontSize: 12,
+                    mt: 1,
+                  },
+                }}
+              />
+            </div>
           </div>
-
           {/* Switch Tokens Button */}
           <button
             onClick={handleSwitchTokens}
@@ -197,7 +239,6 @@ const Swap: React.FC = () => {
             </svg>
             Swap Tokens
           </button>
-
           {/* To Section */}
           <div className="relative">
             <label className="block text-sm text-gray-300 mb-1">To</label>
@@ -211,7 +252,6 @@ const Swap: React.FC = () => {
               {toToken}
             </span>
           </div>
-
           {/* Swap Action Button */}
           <button
             onClick={handleOpen}
@@ -221,7 +261,6 @@ const Swap: React.FC = () => {
           </button>
         </div>
       </div>
-
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(true)}
