@@ -138,6 +138,9 @@ export default function Header() {
             <li>
               <Link to="/swap">Swap</Link>
             </li>
+            <li>
+            <Link to="/price">Price</Link>
+          </li>
             {state.showProfile && (
               <li>
                 <Link to="/profile">Profile</Link>
