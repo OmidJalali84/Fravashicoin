@@ -99,7 +99,9 @@ const Swap: React.FC = () => {
   // Set the maximum balance for the "from" input.
   const handleSetMax = () => {
     const maxBalance =
-      fromToken === "DAI" ? Number(daiBalance) : Number(frvBalance);
+      fromToken === "DAI"
+        ? ((Number(daiBalance) / 1e18) * 100) / 105
+        : Number(frvBalance) / 1e18;
     // Set input to the max balance (converted to a string)
     setFromAmount(maxBalance.toString());
     handleSetToAmount(maxBalance);
@@ -148,9 +150,9 @@ const Swap: React.FC = () => {
             <div className="flex justify-between mt-1 text-xs text-gray-400">
               <span>
                 Balance:{" "}
-                {fromToken === "DAI"
-                  ? ((Number(daiBalance) / 1e18) * 100) / 105 ?? "0"
-                  : Number(frvBalance) / 1e18 ?? "0"}
+                {fromToken === "DAI" || daiBalance || frvBalance
+                  ? Number(daiBalance) / 1e18
+                  : Number(frvBalance) / 1e18}
               </span>
               <div className="flex items-center">
                 <button
