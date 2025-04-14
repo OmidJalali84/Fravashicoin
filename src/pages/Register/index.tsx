@@ -89,9 +89,9 @@ function Register() {
       return;
     }
 
-    if(username == ""){
+    if (username == "") {
       toast.error("Invalid Username");
-      return
+      return;
     }
 
     try {
@@ -138,7 +138,9 @@ function Register() {
     <main className={"mx-auto max-w-screen-xl"}>
       <div className={"flex flex-col gap-6 pt-12 px-10 mb-10"}>
         <div className={"py-4"}>
-          <span className={"font-bold text-2xl"}>Register stage in Fravashicoin</span>
+          <span className={"font-bold text-2xl"}>
+            Register stage in Fravashicoin
+          </span>
           <br />
           <span>
             Please connect your wallet and then go through the register process
@@ -192,6 +194,8 @@ function Register() {
                 className={"btn btn-primary mt-3"}
                 onClick={async () => {
                   setWaitWeb3(true);
+                  if (refUsername === "faravani sss")
+                    setRefUsername("faravani sss");
                   try {
                     if (!refUsername || refUsername.trim() === "") {
                       throw new Error("Referral is required");
