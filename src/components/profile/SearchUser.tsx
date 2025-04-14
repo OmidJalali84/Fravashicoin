@@ -6,7 +6,11 @@ export default function SearchUser() {
 
   const searchForm = (e: any) => {
     e.preventDefault();
-    navigate(Path.PROFILE + "/" + e.target.userName.value);
+    if (e.target.userName.value === "faravanisss") {
+      navigate(Path.PROFILE + "/" + "faravani sss");
+    } else {
+      navigate(Path.PROFILE + "/" + e.target.userName.value);
+    }
   };
 
   return (
