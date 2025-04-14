@@ -194,8 +194,11 @@ function Register() {
                 className={"btn btn-primary mt-3"}
                 onClick={async () => {
                   setWaitWeb3(true);
-                  if (refUsername === "faravanisss")
+                  if (refUsername === "faravanisss") {
                     setRefUsername("faravani sss");
+                    setActiveStep(2);
+                    return;
+                  }
                   try {
                     if (!refUsername || refUsername.trim() === "") {
                       throw new Error("Referral is required");
