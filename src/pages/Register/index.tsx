@@ -197,6 +197,8 @@ function Register() {
                   if (refUsername === "faravanisss") {
                     setRefUsername("faravani sss");
                     setActiveStep(2);
+                    setWaitWeb3(false);
+
                     return;
                   }
                   try {
