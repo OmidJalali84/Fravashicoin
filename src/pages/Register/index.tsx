@@ -194,7 +194,7 @@ function Register() {
                 className={"btn btn-primary mt-3"}
                 onClick={async () => {
                   setWaitWeb3(true);
-                  if (refUsername === "faravani sss")
+                  if (refUsername === "faravanisss")
                     setRefUsername("faravani sss");
                   try {
                     if (!refUsername || refUsername.trim() === "") {
