@@ -32,8 +32,7 @@ export default function Home() {
           <div className={"sm:ml-4 lg:px-8 flex items-center p-4 md:p-10"}>
             <div className={"max-w-[300px]"}>
               <span className={"text-white font-bold text-lg "}>
-                Fravashicoin is currently one of the top networking platforms You will
-                see how it is equitable profitability
+              Fravashicoin is currently one of the top networking platforms. You will see how it offers equitable profitability.
               </span>
               <p className="font-light mb-12 text-xl">Secure & Effortless</p>
               <div className="flex flex-wrap gap-4 items-center">
